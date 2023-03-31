@@ -17,9 +17,9 @@ export default function Home() {
           <h1 className="text-2xl">doughnt forget</h1>
         </div>
         <div>
-          <div className="my-5">
+          {/* <div className="my-5">
             <Button text="Start!" />
-          </div>
+          </div> */}
           <Schedule />
         </div>
       </main>

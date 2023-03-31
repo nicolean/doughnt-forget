@@ -1,27 +1,34 @@
-import ScheduleStep from "./schedule-step";
+import TimedScheduleStep from "./timed-schedule-step";
 import { useState } from "react";
 import { defaultSchedule } from '../data/default-schedule';
 import { ScheduleItem } from "@/interfaces/schedule.interface";
 
 export default function Schedule() {
   const [schedule, setSchedule] = useState([...defaultSchedule]);
+  const [activeStep, setActiveStep] = useState(1);
+  const [isComplete, setIsComplete] = useState(false);
 
   const removeItem = (removedItem: ScheduleItem) => {
     let filteredSchedule = [...schedule].filter(item => item !== removedItem);
     setSchedule(filteredSchedule);
   }
 
-  const onPause = (item: ScheduleItem) => { console.log('onPause', item)}
-
-  const onStart = (item: ScheduleItem) => { console.log('onStart', item)}
-
-  const onSkip = (item: ScheduleItem) => { console.log('onSkip', item)}
+  const onSkip = (item: ScheduleItem) => {
+    // TODO handle total addition duration here in the future
+    setActiveStep(activeStep + 1);
+    if (activeStep === schedule.length) {
+      setIsComplete(true);
+    }
+  }
 
   return (
     <div>
-      {schedule.map((item, index) => {
-        return <ScheduleStep key={index} item={item} onPause={() => onPause(item)} onStart={() => onStart(item)} onSkip={() => onSkip(item)} />
+      {schedule.map(item => {
+        return <TimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} />
       })}
+      { isComplete &&
+        <div className="text-center py-5">COMPLETE!</div>
+      }
     </div>
   )
 }
