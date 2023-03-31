@@ -13,10 +13,6 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
   const [isComplete, setIsComplete] = useState(false);
 
   const expiryTimestamp = useMemo(() => {
-    if (!item.duration) {
-      return 0;
-    }
-
     const time = new Date();
     const [ hours, minutes] = (item.duration).split(':');
     const seconds = (hours * 60 * 60) + (minutes * 60);
@@ -26,7 +22,10 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
   const { seconds, minutes, hours, isRunning, start, pause, resume } = useTimer({
     expiryTimestamp, 
     autoStart: false, 
-    onExpire: () => setIsComplete(true)
+    onExpire: () => {
+      setIsComplete(true);
+      new Notification(`${item.name} complete!`);
+    }
   })
 
   const timeString = [String(hours).padStart(2, "0"), String(minutes).padStart(2, "0"), String(seconds).padStart(2, "0")].join(':');
@@ -38,7 +37,7 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
   }
 
   return (
-    <div className="py-4 flex justify-between not-last:border-b">
+    <div className={`py-4 flex justify-between not-last:border-b ${ isActive ? null : 'text-gray-500' }`}>
       <div className="basis-6/12">{ item.name }</div>
       <div className="basis-2/12">{ timeString }</div>
       <div className="basis-2/12 flex justify-end">
