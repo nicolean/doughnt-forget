@@ -1,5 +1,5 @@
 import { ScheduleItem } from "../interfaces/schedule.interface"
-import { Play, Pause, SkipNext } from "iconoir-react";
+import ScheduleStepActions from "./schedule-step-actions";
 import { useTimer } from "react-timer-hook";
 import { useMemo, useState } from "react";
 
@@ -42,17 +42,11 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
       <div className="basis-6/12">{ item.name }</div>
       <div className="basis-2/12">{ timeString }</div>
       <div className="basis-2/12 flex justify-end">
-        { isActive && !isComplete &&
-          <>
-            <button className="mr-1" aria-label="Start" onClick={start}><Play /></button>
-            <button className="mr-1" aria-label="Pause" onClick={pause}><Pause /></button>
-            <button className="mr-1" aria-label="Skip" onClick={handleOnSkip}><SkipNext /></button>
-          </>
-        }
-        { isActive && isComplete &&
-          <>
-            <button onClick={onSkip}>Next</button>
-          </>
+        { isActive && 
+          ( isComplete
+            ? <button onClick={onSkip}>Next</button>
+            : <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
+          )
         }
       </div>
     </div>
