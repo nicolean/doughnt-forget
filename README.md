@@ -1,5 +1,7 @@
 # doughnt forget
-never forget your dough again!
+Never forget your dough again!
+
+Build a schedule with the steps and timings you use for your dough. Then start the timer to guide and remind you through each step.
 
 ## Getting Started
 

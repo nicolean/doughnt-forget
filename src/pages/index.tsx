@@ -7,20 +7,20 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Bread.</title>
-        <meta name="description" content="A scheduler for your bread" />
+        <title>doughnt forget</title>
+        <meta name="description" content="A scheduler for your bread dough" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="max-w-5xl mx-auto">
+      <main className="max-w-xl mx-auto">
         <div className="py-10">
-          <h1 className="text-2xl">bread.</h1>
+          <h1 className="text-2xl">doughnt forget</h1>
         </div>
         <div>
-          <Schedule />
           <div className="my-5">
             <Button text="Start!" />
           </div>
+          <Schedule />
         </div>
       </main>
     </>
