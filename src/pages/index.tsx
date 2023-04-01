@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import Schedule from '@/components/schedule';
-import Button from '@/components/button';
+import Schedule from '@/components/Schedule';
+import Button from '@/components/Button';
 
 export default function Home() {
   return (

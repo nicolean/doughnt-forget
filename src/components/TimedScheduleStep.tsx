@@ -1,5 +1,5 @@
 import { ScheduleItem } from "../interfaces/schedule.interface"
-import ScheduleStepActions from "./schedule-step-actions";
+import ScheduleStepActions from "./ScheduleStepActions";
 import { useTimer } from "react-timer-hook";
 import { useMemo, useState } from "react";
 

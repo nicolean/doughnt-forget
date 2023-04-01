@@ -1,7 +1,7 @@
 import { ScheduleItem } from "../interfaces/schedule.interface"
 import { Play, Pause, SkipNext } from "iconoir-react";
 import { useStopwatch } from "react-timer-hook";
-import ScheduleStepActions from "./schedule-step-actions";
+import ScheduleStepActions from "./ScheduleStepActions";
 
 interface ScheduleStepProps {
   item: ScheduleItem;
