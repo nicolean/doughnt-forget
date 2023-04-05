@@ -3,7 +3,7 @@ import { Bell, BellOff } from 'iconoir-react';
 
 interface NotificationToggleProps {
   isNotificationsEnabled: boolean;
-  setIsNotificationsEnabled: () => void;
+  setIsNotificationsEnabled: (value: boolean) => boolean;
 }
 
 export default function NotificationToggle({ isNotificationsEnabled, setIsNotificationsEnabled }: NotificationToggleProps) {
@@ -40,7 +40,7 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
 
   const onButtonClick = () => {
     requestNotificationPermission();
-    setIsNotificationsEnabled((isNotificationsEnabled) => !isNotificationsEnabled);
+    setIsNotificationsEnabled(!isNotificationsEnabled);
   }
 
   return (
