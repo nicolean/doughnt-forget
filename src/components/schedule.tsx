@@ -1,10 +1,14 @@
-import TimedScheduleStep from "./TimedScheduleStep";
-import UntimedScheduleStep from "./UntimedScheduleStep";
-import { useState } from "react";
+import TimedScheduleStep from './TimedScheduleStep';
+import UntimedScheduleStep from './UntimedScheduleStep';
+import { useState } from 'react';
 import { defaultSchedule } from '../data/default-schedule';
-import { ScheduleItem } from "@/interfaces/schedule.interface";
+import { ScheduleItem } from '@/interfaces/schedule.interface';
 
-export default function Schedule() {
+interface ScheduleProps {
+  isNotificationsEnabled: boolean;
+}
+
+export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   const [schedule, setSchedule] = useState([...defaultSchedule]);
   const [activeStep, setActiveStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
@@ -26,9 +30,9 @@ export default function Schedule() {
     <div>
       {schedule.map(item => {
         if (item.duration) {
-          return <TimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} />
+          return <TimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} isNotificationsEnabled={isNotificationsEnabled} />
         } else {
-          return <UntimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} />
+          return <UntimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} isNotificationsEnabled={isNotificationsEnabled} />
         }
       })}
       { isComplete &&
