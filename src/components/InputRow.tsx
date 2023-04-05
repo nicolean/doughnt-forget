@@ -1,5 +1,5 @@
-import { Cancel, MoreVert } from "iconoir-react";
-import { ScheduleItem } from "@/interfaces/schedule.interface";
+import { Cancel, MoreVert } from 'iconoir-react';
+import { ScheduleItem } from '@/interfaces/schedule.interface';
 
 interface InputRowProps {
   item: ScheduleItem;

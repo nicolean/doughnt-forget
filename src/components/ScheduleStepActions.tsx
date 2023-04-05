@@ -1,4 +1,4 @@
-import { Play, Pause, Check } from "iconoir-react";
+import { Play, Pause, Check } from 'iconoir-react';
 
 interface ScheduleStepActions {
   isPlaying: boolean;
