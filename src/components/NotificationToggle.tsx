@@ -3,7 +3,7 @@ import { Bell, BellOff } from 'iconoir-react';
 
 interface NotificationToggleProps {
   isNotificationsEnabled: boolean;
-  setIsNotificationsEnabled: (value: boolean) => boolean;
+  setIsNotificationsEnabled: (value: boolean) => void;
 }
 
 export default function NotificationToggle({ isNotificationsEnabled, setIsNotificationsEnabled }: NotificationToggleProps) {
@@ -44,7 +44,7 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
   }
 
   return (
-    isNotificationsSupported &&
+    isNotificationsSupported ?
       <div className="group flex content-center relative">
         <button onClick={onButtonClick} aria-label="Toggle notifications">
           { isNotificationsAllowed && isNotificationsEnabled
@@ -62,5 +62,6 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
           !isNotificationsAllowed && <div className="opacity-0 group-hover:opacity-100 duration-100 ease-in-out absolute text-xs bg-slate-700 text-white py-1 px-2 rounded top-12 whitespace-nowrap left-2/4 -translate-y-2/4 -translate-x-2/4">Allow browser notifications to enable</div>
         }
       </div>
+    : null
   )
 }
