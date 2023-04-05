@@ -8,7 +8,7 @@ interface NotificationToggleProps {
 
 export default function NotificationToggle({ isNotificationsEnabled, setIsNotificationsEnabled }: NotificationToggleProps) {
   const [isNotificationsSupported, setIsNotificationsSupported] = useState(false);
-  const [isDesktopNotificationsAllowed, setIsDesktopNotificationsAllowed] = useState(false);
+  const [isNotificationsAllowed, setIsNotificationsAllowed] = useState(false);
 
   useEffect(() => {
     if (!('Notification' in window)) {
@@ -18,7 +18,7 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
 
     setIsNotificationsSupported(true);
     if (Notification.permission === 'granted') {
-      setIsDesktopNotificationsAllowed(true);
+      setIsNotificationsAllowed(true);
       setIsNotificationsEnabled(true);
     }
   }, [setIsNotificationsEnabled])
@@ -31,7 +31,10 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
 
     Notification.requestPermission().then((permission) => {
       const result = Notification.permission === 'granted' ? true : false;
-      setIsDesktopNotificationsAllowed(result);
+      setIsNotificationsAllowed(result);
+      if (result) {
+        setIsNotificationsEnabled(true);
+      }
     });
   }
 
@@ -44,7 +47,7 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
     isNotificationsSupported &&
       <div className="group flex content-center relative">
         <button onClick={onButtonClick} aria-label="Toggle notifications">
-          { isDesktopNotificationsAllowed && isNotificationsEnabled
+          { isNotificationsAllowed && isNotificationsEnabled
             ? <>
                 <Bell />
                 <span className="visually-hidden">Notifications are enabled</span>
@@ -56,7 +59,7 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
             }
         </button>
         { // TODO decide if this should remain
-          !isDesktopNotificationsAllowed && <div className="hidden group-hover:block absolute text-xs bg-slate-700 text-white py-1 px-2 rounded top-12 whitespace-nowrap left-2/4 -translate-y-2/4 -translate-x-2/4">Allow browser notifications to enable</div>
+          !isNotificationsAllowed && <div className="hidden group-hover:block absolute text-xs bg-slate-700 text-white py-1 px-2 rounded top-12 whitespace-nowrap left-2/4 -translate-y-2/4 -translate-x-2/4">Allow browser notifications to enable</div>
         }
       </div>
   )
