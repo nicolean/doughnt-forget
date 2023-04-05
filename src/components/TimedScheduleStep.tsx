@@ -1,7 +1,7 @@
-import { ScheduleItem } from "../interfaces/schedule.interface"
-import ScheduleStepActions from "./schedule-step-actions";
-import { useTimer } from "react-timer-hook";
-import { useMemo, useState } from "react";
+import { ScheduleItem } from '../interfaces/schedule.interface'
+import ScheduleStepActions from './ScheduleStepActions';
+import { useTimer } from 'react-timer-hook';
+import { useMemo, useState } from 'react';
 
 interface ScheduleStepProps {
   item: ScheduleItem;
@@ -9,7 +9,7 @@ interface ScheduleStepProps {
   onSkip: () => void;
 }
 
-export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepProps) { 
+export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepProps) {
   const [isComplete, setIsComplete] = useState(false);
 
   const expiryTimestamp = useMemo(() => {
@@ -20,11 +20,11 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
   }, [item])
 
   const { seconds, minutes, hours, isRunning, start, pause, resume } = useTimer({
-    expiryTimestamp, 
-    autoStart: false, 
+    expiryTimestamp,
+    autoStart: false,
     onExpire: () => {
       setIsComplete(true);
-      new Notification(`${item.name} complete!`);
+      new Notification('doughnt forget!', {body: `${item.name} is complete`, icon: '/favicon.svg'});
     }
   })
 
@@ -41,7 +41,7 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
       <div className="basis-6/12">{ item.name }</div>
       <div className="basis-2/12">{ timeString }</div>
       <div className="basis-2/12 flex justify-end">
-        { isActive && 
+        { isActive &&
           ( isComplete
             ? <button onClick={onSkip}>Next</button>
             : <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />

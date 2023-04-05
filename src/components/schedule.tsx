@@ -1,5 +1,5 @@
-import TimedScheduleStep from "./timed-schedule-step";
-import UntimedScheduleStep from "./untimed-schedule-step";
+import TimedScheduleStep from "./TimedScheduleStep";
+import UntimedScheduleStep from "./UntimedScheduleStep";
 import { useState } from "react";
 import { defaultSchedule } from '../data/default-schedule';
 import { ScheduleItem } from "@/interfaces/schedule.interface";
