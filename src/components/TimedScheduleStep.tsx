@@ -14,14 +14,11 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
   const [isComplete, setIsComplete] = useState(false);
 
   const expiryTimestamp = useMemo(() => {
-    if (!item.duration) {
-      return;
-    }
-
     const time = new Date();
     const [ hours, minutes ] = (item.duration).split(':').map(i => parseInt(i));
     const seconds = (hours * 60 * 60) + (minutes * 60);
-    return time.setSeconds(time.getSeconds() + seconds);
+    time.setSeconds(time.getSeconds() + seconds)
+    return time;
   }, [item])
 
   const { seconds, minutes, hours, isRunning, start, pause, resume } = useTimer({

@@ -9,7 +9,7 @@ export const defaultSchedule = [
     stepNumber: 2,
     name: 'Mix',
     type: 'Action',
-    // duration: null
+    duration: ''
   },
   {
     stepNumber: 3,
@@ -21,7 +21,7 @@ export const defaultSchedule = [
     stepNumber: 4,
     name: 'Salt',
     type: 'Action',
-    // duration: null
+    duration: ''
   },
   {
     stepNumber: 5,
@@ -33,7 +33,7 @@ export const defaultSchedule = [
     stepNumber: 6,
     name: 'Stretch & Fold',
     type: 'Action',
-    // duration: null
+    duration: ''
   },
   {
     stepNumber: 7,
@@ -45,7 +45,7 @@ export const defaultSchedule = [
     stepNumber: 8,
     name: 'Stretch & Fold',
     type: 'Action',
-    // duration: null
+    duration: ''
   },
   {
     stepNumber: 9,
@@ -57,7 +57,7 @@ export const defaultSchedule = [
     stepNumber: 10,
     name: 'Pre-Shape',
     type: 'Action',
-    // duration: null
+    duration: ''
   },
   {
     stepNumber: 11,
@@ -69,7 +69,7 @@ export const defaultSchedule = [
     stepNumber: 12,
     name: 'Shape',
     type: 'Action',
-    // duration: null
+    duration: ''
   },
   {
     stepNumber: 13,
