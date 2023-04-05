@@ -11,9 +11,10 @@ export default function Home() {
     <>
       <Head>
         <title>doughnt forget</title>
+        <meta charset="utf-8" />
         <meta name="description" content="A scheduler for your bread dough" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+		    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       </Head>
       <main className="max-w-xl mx-auto">
         <div className="py-10 flex justify-between">
@@ -24,7 +25,7 @@ export default function Home() {
           {/* <div className="my-5">
             <Button text="Start!" />
           </div> */}
-          <Schedule />
+          <Schedule isNotificationsEnabled={isNotificationsEnabled} />
         </div>
       </main>
     </>
