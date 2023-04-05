@@ -10,7 +10,7 @@ interface ScheduleStepProps {
 }
 
 export default function UntimedScheduleStep({ item, isActive, onSkip }: ScheduleStepProps) {
-  const { seconds, minutes, hours, isRunning, start, pause, resume } = useStopwatch({ autoStart: false });
+  const { seconds, minutes, hours, isRunning, start, pause } = useStopwatch({ autoStart: false });
 
   const timeString = [String(hours).padStart(2, "0"), String(minutes).padStart(2, "0"), String(seconds).padStart(2, "0")].join(':');
 

@@ -3,5 +3,5 @@ export interface ScheduleItem {
   stepNumber: number;
   name: string;
   type: string;
-  duration?: string;
+  duration: string;
 }
