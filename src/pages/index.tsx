@@ -17,7 +17,7 @@ export default function Home() {
       </Head>
       <main className="w-screen">
         <div className="w-full px-8 sm:max-w-xl sm:p-0 mx-auto">
-          <div className="py-10 flex justify-between">
+          <div className="pt-10 pb-5 px-1 flex justify-between border-b border-notecard-pink">
             <h1 className="text-2xl">doughnt forget</h1>
             <NotificationToggle isNotificationsEnabled={isNotificationsEnabled} setIsNotificationsEnabled={setIsNotificationsEnabled}  />
           </div>
