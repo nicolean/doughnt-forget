@@ -9,7 +9,7 @@ interface ScheduleProps {
 }
 
 export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
-  const [schedule, setSchedule] = useState([...defaultSchedule]);
+  const [schedule, setSchedule] = useState<ScheduleItem[]>([...defaultSchedule]);
   const [activeStep, setActiveStep] = useState(1);
   const [isComplete, setIsComplete] = useState(false);
 

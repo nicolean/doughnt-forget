@@ -1,7 +1,8 @@
-import { ScheduleItem } from '../interfaces/schedule.interface'
-import ScheduleStepActions from './ScheduleStepActions';
-import { useTimer } from 'react-timer-hook';
 import { useMemo, useState } from 'react';
+import { ScheduleItem } from '../interfaces/schedule.interface'
+import { useTimer } from 'react-timer-hook';
+import StepContainer from './StepContainer';
+import ScheduleStepActions from './ScheduleStepActions';
 
 interface ScheduleStepProps {
   isNotificationsEnabled: boolean;
@@ -34,12 +35,13 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
 
   const handleOnSkip = () => {
     // TODO may need to pass elapsed time in onSkip to add to total duration
+    setIsComplete(true);
     pause();
     onSkip();
   }
 
   return (
-    <div className={`py-4 flex justify-between not-last:border-b ${ isActive ? null : 'text-gray-500' }`}>
+    <StepContainer isActive={isActive} isComplete={isComplete}>
       <div className="basis-6/12">{ item.name }</div>
       <div className="basis-2/12">{ timeString }</div>
       <div className="basis-2/12 flex justify-end">
@@ -50,6 +52,6 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
           )
         }
       </div>
-    </div>
+    </StepContainer>
   )
 }

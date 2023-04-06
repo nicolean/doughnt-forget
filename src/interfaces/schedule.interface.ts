@@ -4,4 +4,6 @@ export interface ScheduleItem {
   name: string;
   type: string;
   duration: string;
+  actualDuration: string;
+  completed: boolean;
 }
