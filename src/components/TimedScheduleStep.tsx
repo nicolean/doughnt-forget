@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { ScheduleItem } from '../interfaces/schedule.interface'
 import { useTimer } from 'react-timer-hook';
 import StepContainer from './StepContainer';
@@ -12,15 +12,16 @@ interface ScheduleStepProps {
 }
 
 export default function ScheduleStep({ item, isActive, isNotificationsEnabled, onSkip }: ScheduleStepProps) {
-  const [isComplete, setIsComplete] = useState(false);
-
-  const expiryTimestamp = useMemo(() => {
+  const calculateExpiryTimestamp = () => {
     const time = new Date();
     const [ hours, minutes ] = (item.duration).split(':').map(i => parseInt(i));
     const seconds = (hours * 60 * 60) + (minutes * 60);
     time.setSeconds(time.getSeconds() + seconds);
     return time;
-  }, [item])
+  }
+
+  const [isComplete, setIsComplete] = useState(false);
+  const [expiryTimestamp, setExpiryTimestamp] = useState(calculateExpiryTimestamp);
 
   const { seconds, minutes, hours, isRunning, start, pause, resume } = useTimer({
     expiryTimestamp,
