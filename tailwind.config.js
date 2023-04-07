@@ -17,6 +17,12 @@ module.exports = {
       }
     }
   },
+  variants: {
+    extend: {
+      borderColor: ['responsive', 'hover'],
+      borderWidth: ['responsive', 'hover'],
+    }
+  },
   plugins: [
     plugin(function ({ addVariant }) {
       addVariant('not-last', '&:not(:last-child)')

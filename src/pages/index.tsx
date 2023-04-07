@@ -22,9 +22,6 @@ export default function Home() {
             <NotificationToggle isNotificationsEnabled={isNotificationsEnabled} setIsNotificationsEnabled={setIsNotificationsEnabled}  />
           </div>
           <div>
-            {/* <div className="my-5">
-              <Button text="Start!" />
-            </div> */}
             <Schedule isNotificationsEnabled={isNotificationsEnabled} />
           </div>
         </div>

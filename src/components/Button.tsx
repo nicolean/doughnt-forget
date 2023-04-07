@@ -1,10 +1,11 @@
 interface ButtonProps {
   type?: string;
-  text: string;
+  children: React.ReactNode;
+  onClick: () => void;
 }
 
-export default function Button({ type, text }: ButtonProps) {
+export default function Button({ type, text, children, onClick }: ButtonProps) {
   return(
-    <button className="w-full bg-slate-200 hover:bg-slate-400 py-2 px-4 rounded">{text}</button>
+    <button onClick={onClick} className="flex justify-center w-full rounded bg-slate-200 hover:bg-slate-400 py-2 px-4">{ children }</button>
   )
 }
