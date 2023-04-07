@@ -5,20 +5,20 @@ import StepContainer from './StepContainer';
 import ScheduleStepActions from './ScheduleStepActions';
 
 interface ScheduleStepProps {
-  isNotificationsEnabled: boolean;
   item: ScheduleItem;
   isActive: boolean;
+  isNotificationsEnabled: boolean;
   onSkip: () => void;
 }
 
-export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepProps) {
+export default function ScheduleStep({ item, isActive, isNotificationsEnabled, onSkip }: ScheduleStepProps) {
   const [isComplete, setIsComplete] = useState(false);
 
   const expiryTimestamp = useMemo(() => {
     const time = new Date();
     const [ hours, minutes ] = (item.duration).split(':').map(i => parseInt(i));
     const seconds = (hours * 60 * 60) + (minutes * 60);
-    time.setSeconds(time.getSeconds() + seconds)
+    time.setSeconds(time.getSeconds() + seconds);
     return time;
   }, [item])
 
@@ -27,6 +27,10 @@ export default function ScheduleStep({ item, isActive, onSkip }: ScheduleStepPro
     autoStart: false,
     onExpire: () => {
       setIsComplete(true);
+      if (!isNotificationsEnabled) {
+        return;
+      }
+
       new Notification('doughnt forget!', {body: `${item.name} is complete`, icon: '/favicon.svg'});
     }
   })

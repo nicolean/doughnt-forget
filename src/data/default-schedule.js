@@ -5,7 +5,7 @@ export const defaultSchedule = [
     type: 'Rest',
     duration: '00:01',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 2,
@@ -13,7 +13,7 @@ export const defaultSchedule = [
     type: 'Action',
     duration: '',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 3,
@@ -21,7 +21,7 @@ export const defaultSchedule = [
     type: 'Rest',
     duration: '0:01',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 4,
@@ -29,7 +29,7 @@ export const defaultSchedule = [
     type: 'Action',
     duration: '',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 5,
@@ -37,7 +37,7 @@ export const defaultSchedule = [
     type: 'Rest',
     duration: '0:30',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 6,
@@ -45,7 +45,7 @@ export const defaultSchedule = [
     type: 'Action',
     duration: '',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 7,
@@ -53,7 +53,7 @@ export const defaultSchedule = [
     type: 'Rest',
     duration: '0:30',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 8,
@@ -61,7 +61,7 @@ export const defaultSchedule = [
     type: 'Action',
     duration: '',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 9,
@@ -69,7 +69,7 @@ export const defaultSchedule = [
     type: 'Rest',
     duration: '0:30',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 10,
@@ -77,7 +77,7 @@ export const defaultSchedule = [
     type: 'Action',
     duration: '',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 11,
@@ -85,7 +85,7 @@ export const defaultSchedule = [
     type: 'Rest',
     duration: '0:30',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 12,
@@ -93,7 +93,7 @@ export const defaultSchedule = [
     type: 'Action',
     duration: '',
     actualDuration: '',
-    completed: false,
+    completed: false
   },
   {
     stepNumber: 13,
@@ -101,6 +101,6 @@ export const defaultSchedule = [
     type: 'Rest',
     duration: '4:00',
     actualDuration: '',
-    completed: false,
+    completed: false
   }
 ]
