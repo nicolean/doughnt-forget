@@ -1,5 +1,5 @@
 // TODO: need to refine this
-export interface ScheduleItem {
+export interface ScheduleStep {
   stepNumber: number;
   name: string;
   type: string;
