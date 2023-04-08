@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import Step from './Step';
-// import TimedScheduleStep from './TimedScheduleStep';
-// import UntimedScheduleStep from './UntimedScheduleStep';
 import Button from './Button';
 import { defaultSchedule } from '../data/default-schedule';
 import { ScheduleStep } from '@/interfaces/schedule.interface';
 import { EditPencil } from 'iconoir-react';
-
 
 interface ScheduleProps {
   isNotificationsEnabled: boolean;
@@ -47,11 +44,6 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     <>
       <div>
         {schedule.map(item => {
-          // if (item.duration) {
-          //   return <TimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} isNotificationsEnabled={isNotificationsEnabled} isEditModeActive={isEditModeActive} />
-          // } else {
-          //   return <UntimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} isEditModeActive={isEditModeActive} />
-          // }
           return <Step key={item.stepNumber} step={item} isEditModeActive={isEditModeActive} isNotificationsEnabled={isNotificationsEnabled} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} />
         })}
       </div>
