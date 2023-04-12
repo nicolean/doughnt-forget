@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useTimer } from 'react-timer-hook';
+import { EditContext } from '@/context/edit';
+import { EditContextType } from '@/types/edit-context';
 import ScheduleStepActions from './ScheduleStepActions';
 
 interface TimedScheduleStepProps {
@@ -7,14 +9,14 @@ interface TimedScheduleStepProps {
   duration: string;
   isActive: boolean; // ?
   isComplete: boolean;
-  isEditModeActive: boolean;
   isNotificationsEnabled: boolean;
   onComplete: (value: boolean) => void;
   onSkip: () => void;
-
 }
 
-export default function StepTimer({ stepName, duration, isActive, isComplete, isEditModeActive, isNotificationsEnabled, onComplete, onSkip }: TimedScheduleStepProps) {
+export default function StepTimer({ stepName, duration, isActive, isComplete, isNotificationsEnabled, onComplete, onSkip }: TimedScheduleStepProps) {
+  const { isEditModeActive } = useContext(EditContext) as EditContextType;
+
   const calculateExpiryTimestamp = () => {
     const time = new Date();
     const [ hours, minutes ] = (duration).split(':').map(i => parseInt(i));

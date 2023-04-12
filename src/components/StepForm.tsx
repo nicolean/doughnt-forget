@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import { Cancel, SaveFloppyDisk } from 'iconoir-react';
-import { ScheduleStep } from '@/interfaces/schedule.interface';
+import { ScheduleStep } from '@/types/schedule';
 import Input from './Input';
 
 interface StepFormProps {

@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Step from './Step';
-import Button from './Button';
 import { defaultSchedule } from '../data/default-schedule';
-import { ScheduleStep } from '@/interfaces/schedule.interface';
+import { ScheduleStep } from '@/types/schedule';
 import { EditPencil } from 'iconoir-react';
 
 interface ScheduleProps {
@@ -13,8 +12,6 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   const [schedule, setSchedule] = useState<ScheduleStep[]>([...defaultSchedule]);
   const [activeStep, setActiveStep] = useState<number>(1);
   const [isComplete, setIsComplete] = useState<boolean>(false);
-  const [isEditModeActive, setIsEditModeActive] = useState<boolean>(false);
-  const [activeEditStep, setActiveEditStep] = useState<number>(-1);
 
   // TODO may need to add sorting to schedule based on stepNumber
 
@@ -46,12 +43,11 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     <>
       <div>
         {schedule.map(item => {
-          return <Step key={item.stepNumber} step={item} isEditModeActive={isEditModeActive} isNotificationsEnabled={isNotificationsEnabled}
-            isActive={activeStep === item.stepNumber} activeEditStep={activeEditStep} updateActiveEditStep={(newStepId: number) => setActiveEditStep(newStepId)}
-            onSkip={() => onSkip(item)} onSaveStep={handleUpdateStep} />
+          return <Step key={item.stepNumber} step={item} isNotificationsEnabled={isNotificationsEnabled}
+            isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} onSaveStep={handleUpdateStep} />
         })}
       </div>
-      <Button onClick={() => setIsEditModeActive(isEditModeActive => !isEditModeActive)}>Edit <EditPencil /></Button>
+
       { isComplete && <div className="text-center py-5">COMPLETE!</div> }
     </>
   )

@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useStopwatch } from 'react-timer-hook';
+import { EditContext } from '@/context/edit';
+import { EditContextType } from '@/types/edit-context';
 import ScheduleStepActions from './ScheduleStepActions';
 
 interface StepStopwatchProps {
   isActive: boolean;
-  isEditModeActive: boolean;
   onComplete: (value: boolean) => void;
   onSkip: () => void;
 }
 
-export default function StepStopwatch({ isActive, isEditModeActive, onComplete, onSkip }: StepStopwatchProps) {
+export default function StepStopwatch({ isActive, onComplete, onSkip }: StepStopwatchProps) {
+  const { isEditModeActive } = useContext(EditContext) as EditContextType;
+
   const { seconds, minutes, hours, isRunning, start, pause } = useStopwatch({ autoStart: false });
 
   const timeString = [String(hours).padStart(2, "0"), String(minutes).padStart(2, "0"), String(seconds).padStart(2, "0")].join(':');

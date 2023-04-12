@@ -1,11 +1,16 @@
 import Head from 'next/head'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { EditContext } from '@/context/edit';
+import { EditContextType } from '@/types/edit-context';
 import Schedule from '@/components/Schedule';
 import Button from '@/components/Button';
 import NotificationToggle from '@/components/NotificationToggle';
+import { EditPencil } from 'iconoir-react';
 
 export default function Home() {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState<boolean>(false);
+
+  const { toggleEditMode } = useContext(EditContext) as EditContextType;
 
   return (
     <>
@@ -19,7 +24,10 @@ export default function Home() {
         <div className="w-full px-8 sm:max-w-xl sm:p-0 mx-auto">
           <div className="pt-10 pb-5 px-1 flex justify-between border-b border-notecard-pink">
             <h1 className="text-2xl">doughnt forget</h1>
-            <NotificationToggle isNotificationsEnabled={isNotificationsEnabled} setIsNotificationsEnabled={setIsNotificationsEnabled}  />
+            <div className="flex">
+              <button className="mr-4" aria-label="Toggle edit mode" onClick={toggleEditMode}><EditPencil /></button>
+              <NotificationToggle isNotificationsEnabled={isNotificationsEnabled} setIsNotificationsEnabled={setIsNotificationsEnabled}  />
+            </div>
           </div>
           <div>
             <Schedule isNotificationsEnabled={isNotificationsEnabled} />

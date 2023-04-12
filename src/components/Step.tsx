@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
-import { ScheduleStep } from '@/interfaces/schedule.interface';
+import { useEffect, useState, useContext } from 'react';
+import { EditContext } from '../context/edit';
+import { EditContextType } from '@/types/edit-context';
+import { ScheduleStep } from '@/types/schedule';
 import StepTimer from './StepTimer';
 import StepStopwatch from './StepStopwatch';
 import StepForm from './StepForm';
@@ -7,16 +9,15 @@ import ScheduleStepActions from './ScheduleStepActions';
 
 interface StepProps {
   step: ScheduleStep;
-  isEditModeActive: boolean;
   isActive: boolean;
   isNotificationsEnabled: boolean;
-  activeEditStep: number;
-  updateActiveEditStep: (newStepId: number) => void;
   onSkip: () => void;
   onSaveStep: (newStepData: ScheduleStep) => void;
 }
 
-export default function Step({ step, isActive, isEditModeActive, isNotificationsEnabled, activeEditStep, updateActiveEditStep, onSkip, onSaveStep }: StepProps) {
+export default function Step({ step, isActive, isNotificationsEnabled, onSkip, onSaveStep }: StepProps) {
+  const { isEditModeActive, activeEditStep, updateActiveEditStep } = useContext(EditContext) as EditContextType;
+
   const [dynamicClasses, setDynamicClasses] = useState<string>();
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -54,7 +55,7 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
 
   return (
     <div className={`relative h-[3.625rem] not-last:border-b not-last:border-b-blue-300 ${dynamicClasses}`}>
-      { activeEditStep === step.id
+      { isEditModeActive && activeEditStep === step.id
         ? <div className="absolute top-2/4 -translate-y-2/4">
             <div className="relative z-10">
               <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep(-1)} />
@@ -63,8 +64,8 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
         : <div className="grid grid-cols-12 p-4" onClick={onEditClick}>
             <div className="col-span-7">{ step.name }</div>
             { step.duration
-              ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={isComplete} isEditModeActive={isEditModeActive} isNotificationsEnabled={isNotificationsEnabled} onComplete={setIsComplete} onSkip={onSkip} />
-              : <StepStopwatch isActive={isActive} isEditModeActive={isEditModeActive} onComplete={setIsComplete} onSkip={onSkip} />
+              ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={isComplete} isNotificationsEnabled={isNotificationsEnabled} onComplete={setIsComplete} onSkip={onSkip} />
+              : <StepStopwatch isActive={isActive} onComplete={setIsComplete} onSkip={onSkip} />
             }
           </div>
       }
