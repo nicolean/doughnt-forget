@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ScheduleStep } from '@/interfaces/schedule';
+import { ScheduleStep } from '@/interfaces/schedule.interface';
 import StepTimer from './StepTimer';
 import StepStopwatch from './StepStopwatch';
 import StepForm from './StepForm';
@@ -14,7 +14,7 @@ interface StepProps {
 }
 
 export default function Step({ step, isActive, isEditModeActive, isNotificationsEnabled, onSkip }: StepProps) {
-  const [dynamicClasses, setDynamicClasses] = useState([]);
+  const [dynamicClasses, setDynamicClasses] = useState('');
   const [isStepEditActive, setIsStepEditActive] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
@@ -22,12 +22,6 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
   useEffect(() => {
     // TODO clean this up
     let classes = [];
-
-    if (isStepEditActive) {
-      classes.push('rounded', 'bg-white', 'hover:bg-white', 'shadow-lg', 'border-gray-300', 'border-b-gray-300');
-    } else {
-      classes.push('not-last:border-b-blue-300 border-transparent');
-    }
 
     if (isEditModeActive) {
       classes.push('hover:bg-gray-100', 'hover:cursor-pointer');
@@ -40,7 +34,7 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
     }
 
     setDynamicClasses(classes.join(' '));
-  }, [isActive, isComplete, isEditModeActive, isStepEditActive])
+  }, [isActive, isComplete, isEditModeActive]);
 
 
   const onEditClick = () => {
@@ -52,8 +46,8 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
     setIsStepEditActive((isStepEditActive) => !isStepEditActive);
   }
 
-  const onSave = (newFormData) => {
-    console.log('save', step);
+  const onSave = (newStepData: ScheduleStep) => {
+    console.log('save', newStepData);
   }
 
   const onCancelEdit = () => {
@@ -61,10 +55,14 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
   }
 
   return (
-    <div className={`p-4 relative border ${dynamicClasses}`}>
+    <div className={`relative h-[3.625rem] not-last:border-b not-last:border-b-blue-300 ${dynamicClasses}`}>
       { isStepEditActive
-        ? <StepForm step={step} onSave={onSave} onCancel={onCancelEdit} />
-        : <div className="grid grid-cols-12" onClick={onEditClick}>
+        ? <div className="absolute top-2/4 -translate-y-2/4">
+            <div className="relative z-10">
+              <StepForm step={step} onSave={onSave} onCancel={onCancelEdit} />
+            </div>
+          </div>
+        : <div className="grid grid-cols-12 p-4" onClick={onEditClick}>
             <div className="col-span-7">{ step.name }</div>
             { step.duration
               ? <StepTimer duration={step.duration} isActive={isActive} isComplete={isComplete} isEditModeActive={isEditModeActive} isNotificationsEnabled={isNotificationsEnabled} onComplete={setIsComplete} onSkip={onSkip} />
