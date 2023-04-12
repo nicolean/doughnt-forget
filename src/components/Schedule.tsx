@@ -11,9 +11,10 @@ interface ScheduleProps {
 
 export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   const [schedule, setSchedule] = useState<ScheduleStep[]>([...defaultSchedule]);
-  const [activeStep, setActiveStep] = useState<Number>(1);
+  const [activeStep, setActiveStep] = useState<number>(1);
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [isEditModeActive, setIsEditModeActive] = useState<boolean>(false);
+  const [activeEditStep, setActiveEditStep] = useState<number>(-1);
 
   // TODO may need to add sorting to schedule based on stepNumber
 
@@ -28,10 +29,6 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     if (activeStep === schedule.length) {
       setIsComplete(true);
     }
-  }
-
-  const handleEditToggle = () => {
-    setIsEditModeActive(isEditModeActive => !isEditModeActive);
   }
 
   const handleUpdateStep = (newStepData: ScheduleStep) => {
@@ -49,12 +46,12 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     <>
       <div>
         {schedule.map(item => {
-          return <Step key={item.stepNumber} step={item} isEditModeActive={isEditModeActive}
-            isNotificationsEnabled={isNotificationsEnabled} isActive={activeStep === item.stepNumber}
-            onSkip={() => onSkip(item)} onUpdate={handleUpdateStep} />
+          return <Step key={item.stepNumber} step={item} isEditModeActive={isEditModeActive} isNotificationsEnabled={isNotificationsEnabled}
+            isActive={activeStep === item.stepNumber} activeEditStep={activeEditStep} updateActiveEditStep={(newStepId: number) => setActiveEditStep(newStepId)}
+            onSkip={() => onSkip(item)} onSaveStep={handleUpdateStep} />
         })}
       </div>
-      <Button onClick={handleEditToggle}>Edit <EditPencil /></Button>
+      <Button onClick={() => setIsEditModeActive(isEditModeActive => !isEditModeActive)}>Edit <EditPencil /></Button>
       { isComplete && <div className="text-center py-5">COMPLETE!</div> }
     </>
   )

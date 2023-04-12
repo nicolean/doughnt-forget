@@ -5,17 +5,17 @@ import Input from './Input';
 
 interface StepFormProps {
   step: ScheduleStep;
-  onSave: (newStepData: ScheduleStep) => void;
+  onSubmit: (newStepData: ScheduleStep) => void;
   onCancel: () => void;
 }
 
-export default function StepForm({ step, onSave, onCancel }: StepFormProps) {
+export default function StepForm({ step, onSubmit, onCancel }: StepFormProps) {
   const [name, setName] = useState(step.name);
   const [duration, setDuration] = useState(step.duration);
 
   const handleOnSubmit = () => {
     const newStepData = { ...step, name: name, duration: duration };
-    onSave(newStepData);
+    onSubmit(newStepData);
   }
 
   return (

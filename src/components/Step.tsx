@@ -10,15 +10,16 @@ interface StepProps {
   isEditModeActive: boolean;
   isActive: boolean;
   isNotificationsEnabled: boolean;
+  activeEditStep: number;
+  updateActiveEditStep: (newStepId: number) => void;
   onSkip: () => void;
-  onUpdate: (newStepData: ScheduleStep) => void;
+  onSaveStep: (newStepData: ScheduleStep) => void;
 }
 
-export default function Step({ step, isActive, isEditModeActive, isNotificationsEnabled, onSkip, onUpdate }: StepProps) {
-  const [dynamicClasses, setDynamicClasses] = useState('');
-  const [isStepEditActive, setIsStepEditActive] = useState(false); // may need to lift this
-  const [isComplete, setIsComplete] = useState(false);
-  const [isRunning, setIsRunning] = useState(false);
+export default function Step({ step, isActive, isEditModeActive, isNotificationsEnabled, activeEditStep, updateActiveEditStep, onSkip, onSaveStep }: StepProps) {
+  const [dynamicClasses, setDynamicClasses] = useState<string>();
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
 
   useEffect(() => {
     // TODO clean this up
@@ -43,20 +44,20 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
       return;
     }
 
-    setIsStepEditActive((isStepEditActive) => !isStepEditActive);
+    updateActiveEditStep(step.id);
   }
 
-  const onSave = (newStepData: ScheduleStep) => {
-    onUpdate(newStepData);
-    setIsStepEditActive(false);
+  const onSubmit = (newStepData: ScheduleStep) => {
+    onSaveStep(newStepData);
+    updateActiveEditStep(-1);
   }
 
   return (
     <div className={`relative h-[3.625rem] not-last:border-b not-last:border-b-blue-300 ${dynamicClasses}`}>
-      { isStepEditActive
+      { activeEditStep === step.id
         ? <div className="absolute top-2/4 -translate-y-2/4">
             <div className="relative z-10">
-              <StepForm step={step} onSave={onSave} onCancel={() => setIsStepEditActive(false)} />
+              <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep(-1)} />
             </div>
           </div>
         : <div className="grid grid-cols-12 p-4" onClick={onEditClick}>
