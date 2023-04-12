@@ -39,7 +39,7 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
 
 
   const onEditClick = () => {
-    if (!isEditModeActive) {
+    if (!isEditModeActive || isComplete) {
       return;
     }
 
