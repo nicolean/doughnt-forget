@@ -15,6 +15,8 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [isEditModeActive, setIsEditModeActive] = useState<boolean>(false);
 
+  // TODO may need to add sorting to schedule based on stepNumber
+
   const removeItem = (removedItem: ScheduleStep) => {
     let filteredSchedule = [...schedule].filter(item => item !== removedItem);
     setSchedule(filteredSchedule);

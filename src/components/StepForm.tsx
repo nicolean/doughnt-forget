@@ -10,11 +10,11 @@ interface StepFormProps {
 export default function StepForm({ step, onSave, onCancel }: StepFormProps) {
   return (
     <div className="grid grid-cols-12">
-      <div className="col-span-7">
-        <input className="w-full" defaultValue={ step.name } />
+      <div className="col-span-7 pr-3">
+        <input className="w-full border rounded border-gray-300" defaultValue={ step.name } />
       </div>
-      <div className="col-span-3">
-        <input className="w-full" defaultValue={ step.duration } />
+      <div className="col-span-3 pr-3">
+        <input className="w-full border rounded border-gray-300" defaultValue={ step.duration } />
       </div>
       <div className="col-span-2 flex justify-end">
         <button aria-label="Save changes" onClick={onSave}><SaveFloppyDisk /></button>

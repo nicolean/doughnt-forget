@@ -24,13 +24,13 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
     let classes = [];
 
     if (isStepEditActive) {
-      classes.push('rounded', 'shadow-lg', 'border-gray-300', 'border-b-gray-300');
+      classes.push('rounded', 'bg-white', 'hover:bg-white', 'shadow-lg', 'border-gray-300', 'border-b-gray-300');
     } else {
       classes.push('not-last:border-b-blue-300 border-transparent');
     }
 
     if (isEditModeActive) {
-      classes.push('hover:rounded', 'hover:shadow-lg', 'hover:border-gray-300', 'hover:not-last:border-gray-300', 'hover:cursor-pointer');
+      classes.push('hover:bg-gray-100', 'hover:cursor-pointer');
     } else if (!isActive) {
       classes.push('text-gray-500');
     }
