@@ -81,7 +81,7 @@ export const defaultSchedule = [
     completed: false
   },
   {
-    id: 0,
+    id: 10,
     stepNumber: 10,
     name: 'Pre-Shape',
     type: 'Action',
@@ -90,7 +90,7 @@ export const defaultSchedule = [
     completed: false
   },
   {
-    id: 1,
+    id: 11,
     stepNumber: 11,
     name: 'Rest',
     type: 'Rest',
@@ -99,7 +99,7 @@ export const defaultSchedule = [
     completed: false
   },
   {
-    id: 2,
+    id: 12,
     stepNumber: 12,
     name: 'Shape',
     type: 'Action',
@@ -108,7 +108,7 @@ export const defaultSchedule = [
     completed: false
   },
   {
-    id: 3,
+    id: 13,
     stepNumber: 13,
     name: 'Bulk Fermentation',
     type: 'Rest',

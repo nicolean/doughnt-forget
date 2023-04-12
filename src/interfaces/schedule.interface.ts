@@ -1,6 +1,5 @@
-// TODO: need to refine this
 export interface ScheduleStep {
-  id: integer;
+  id: number;
   stepNumber: number;
   name: string;
   type: string;

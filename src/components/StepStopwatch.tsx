@@ -5,7 +5,7 @@ import ScheduleStepActions from './ScheduleStepActions';
 interface StepStopwatchProps {
   isActive: boolean;
   isEditModeActive: boolean;
-  onComplete: () => void;
+  onComplete: (value: boolean) => void;
   onSkip: () => void;
 }
 
@@ -26,7 +26,7 @@ export default function StepStopwatch({ isActive, isEditModeActive, onComplete, 
       <div className="col-span-3">{ timeString }</div>
       <div className="col-span-2 flex justify-end">
         { isActive && !isEditModeActive &&
-          <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} isEditModeActive={isEditModeActive} />
+          <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
         }
       </div>
     </>

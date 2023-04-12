@@ -3,16 +3,18 @@ import { useTimer } from 'react-timer-hook';
 import ScheduleStepActions from './ScheduleStepActions';
 
 interface TimedScheduleStepProps {
+  stepName: string;
   duration: string;
   isActive: boolean; // ?
+  isComplete: boolean;
   isEditModeActive: boolean;
   isNotificationsEnabled: boolean;
-  onComplete: () => void;
+  onComplete: (value: boolean) => void;
   onSkip: () => void;
 
 }
 
-export default function StepTimer({ duration, isActive, isComplete, isEditModeActive, isNotificationsEnabled, onComplete, onSkip }: TimedScheduleStepProps) {
+export default function StepTimer({ stepName, duration, isActive, isComplete, isEditModeActive, isNotificationsEnabled, onComplete, onSkip }: TimedScheduleStepProps) {
   const calculateExpiryTimestamp = () => {
     const time = new Date();
     const [ hours, minutes ] = (duration).split(':').map(i => parseInt(i));
@@ -32,7 +34,7 @@ export default function StepTimer({ duration, isActive, isComplete, isEditModeAc
         return;
       }
 
-      new Notification('doughnt forget!', {body: `${item.name} is complete`, icon: '/favicon.svg'});
+      new Notification('doughnt forget!', {body: `${stepName} is complete`, icon: '/favicon.svg'});
     }
   })
 
@@ -52,7 +54,7 @@ export default function StepTimer({ duration, isActive, isComplete, isEditModeAc
         { isActive && !isEditModeActive &&
           ( isComplete
             ? <button onClick={onSkip}>Next</button>
-            : <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} isEditModeActive={isEditModeActive} />
+            : <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
           )
         }
       </div>
