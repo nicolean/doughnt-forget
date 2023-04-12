@@ -11,11 +11,12 @@ interface StepProps {
   isActive: boolean;
   isNotificationsEnabled: boolean;
   onSkip: () => void;
+  onUpdate: (newStepData: ScheduleStep) => void;
 }
 
-export default function Step({ step, isActive, isEditModeActive, isNotificationsEnabled, onSkip }: StepProps) {
+export default function Step({ step, isActive, isEditModeActive, isNotificationsEnabled, onSkip, onUpdate }: StepProps) {
   const [dynamicClasses, setDynamicClasses] = useState('');
-  const [isStepEditActive, setIsStepEditActive] = useState(false);
+  const [isStepEditActive, setIsStepEditActive] = useState(false); // may need to lift this
   const [isComplete, setIsComplete] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -42,15 +43,11 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
       return;
     }
 
-    console.log('edit', step);
     setIsStepEditActive((isStepEditActive) => !isStepEditActive);
   }
 
   const onSave = (newStepData: ScheduleStep) => {
-    console.log('save', newStepData);
-  }
-
-  const onCancelEdit = () => {
+    onUpdate(newStepData);
     setIsStepEditActive(false);
   }
 
@@ -59,13 +56,13 @@ export default function Step({ step, isActive, isEditModeActive, isNotifications
       { isStepEditActive
         ? <div className="absolute top-2/4 -translate-y-2/4">
             <div className="relative z-10">
-              <StepForm step={step} onSave={onSave} onCancel={onCancelEdit} />
+              <StepForm step={step} onSave={onSave} onCancel={() => setIsStepEditActive(false)} />
             </div>
           </div>
         : <div className="grid grid-cols-12 p-4" onClick={onEditClick}>
             <div className="col-span-7">{ step.name }</div>
             { step.duration
-              ? <StepTimer duration={step.duration} isActive={isActive} isComplete={isComplete} isEditModeActive={isEditModeActive} isNotificationsEnabled={isNotificationsEnabled} onComplete={setIsComplete} onSkip={onSkip} />
+              ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={isComplete} isEditModeActive={isEditModeActive} isNotificationsEnabled={isNotificationsEnabled} onComplete={setIsComplete} onSkip={onSkip} />
               : <StepStopwatch isActive={isActive} isEditModeActive={isEditModeActive} onComplete={setIsComplete} onSkip={onSkip} />
             }
           </div>

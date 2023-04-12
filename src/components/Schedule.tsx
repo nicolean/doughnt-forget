@@ -34,8 +34,11 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     setIsEditModeActive(isEditModeActive => !isEditModeActive);
   }
 
-  const updateStep = (step: ScheduleStep) => {
-    console.log('updateStep', step);
+  const handleUpdateStep = (newStepData: ScheduleStep) => {
+    const updatedStepIndex = schedule.findIndex((step) => step.id === newStepData.id);
+    const newSchedule = [...schedule];
+    newSchedule.splice(updatedStepIndex, 1, newStepData);
+    setSchedule(newSchedule);
   }
 
   const deleteStep = () => {}
@@ -46,7 +49,9 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     <>
       <div>
         {schedule.map(item => {
-          return <Step key={item.stepNumber} step={item} isEditModeActive={isEditModeActive} isNotificationsEnabled={isNotificationsEnabled} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} />
+          return <Step key={item.stepNumber} step={item} isEditModeActive={isEditModeActive}
+            isNotificationsEnabled={isNotificationsEnabled} isActive={activeStep === item.stepNumber}
+            onSkip={() => onSkip(item)} onUpdate={handleUpdateStep} />
         })}
       </div>
       <Button onClick={handleEditToggle}>Edit <EditPencil /></Button>
