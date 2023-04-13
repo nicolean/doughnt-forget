@@ -14,13 +14,19 @@ module.exports = {
       },
       colors: {
         'notecard-pink': '#D29692'
-      },
+      }
+    }
+  },
+  variants: {
+    extend: {
+      borderColor: ['responsive', 'hover'],
+      borderWidth: ['responsive', 'hover'],
     }
   },
   plugins: [
     plugin(function ({ addVariant }) {
-      addVariant('not-last', '&:not(:last-child)');
-      addVariant('not-first', '&:not(:first-child)');
+      addVariant('not-last', '&:not(:last-child)')
+      addVariant('not-first', '&:not(:first-child)')
     })
   ]
 }

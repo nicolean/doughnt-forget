@@ -1,43 +1,101 @@
-import TimedScheduleStep from './TimedScheduleStep';
-import UntimedScheduleStep from './UntimedScheduleStep';
-import { useState } from 'react';
-import { defaultSchedule } from '../data/default-schedule';
-import { ScheduleItem } from '@/interfaces/schedule.interface';
+import { useState, useContext } from 'react';
+import { EditContext } from '@/context/edit';
+import { EditContextType } from '@/types/edit-context';
+import Step from './Step';
+import Button from './Button';
+import StepForm from './StepForm';
+import { defaultSchedule } from '@/data/default-schedule';
+import { ScheduleStep } from '@/types/schedule';
+import { Plus } from 'iconoir-react';
 
 interface ScheduleProps {
   isNotificationsEnabled: boolean;
 }
 
-export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
-  const [schedule, setSchedule] = useState<ScheduleItem[]>([...defaultSchedule]);
-  const [activeStep, setActiveStep] = useState(1);
-  const [isComplete, setIsComplete] = useState(false);
+const EMPTY_STEP  = {
+  id: '',
+  stepNumber: 0,
+  name: '',
+  type: '',
+  duration: '',
+  actualDuration: '',
+  completed: false,
+}
 
-  const removeItem = (removedItem: ScheduleItem) => {
+export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
+  const [schedule, setSchedule] = useState<ScheduleStep[]>([...defaultSchedule]);
+  const [activeStepNumber, setActiveStepNumber] = useState<number>(1);
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+  const [newStepData, setNewStepData] = useState<ScheduleStep>(EMPTY_STEP);
+
+  const { isEditModeActive, isAddStepActive, setIsAddStepActive } = useContext(EditContext) as EditContextType;
+
+  // TODO may need to add sorting to schedule based on stepNumber
+
+  const removeItem = (removedItem: ScheduleStep) => {
     let filteredSchedule = [...schedule].filter(item => item !== removedItem);
     setSchedule(filteredSchedule);
   }
 
-  const onSkip = (item: ScheduleItem) => {
+  const onSkip = (item: ScheduleStep) => {
     // TODO handle total addition duration here in the future
-    setActiveStep(activeStep + 1);
-    if (activeStep === schedule.length) {
+    setActiveStepNumber(Number(activeStepNumber) + 1);
+    if (activeStepNumber === schedule.length) {
       setIsComplete(true);
     }
   }
 
-  return (
-    <div>
-      {schedule.map(item => {
-        if (item.duration) {
-          return <TimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} isNotificationsEnabled={isNotificationsEnabled} />
-        } else {
-          return <UntimedScheduleStep key={item.stepNumber} item={item} isActive={activeStep === item.stepNumber} onSkip={() => onSkip(item)} />
-        }
-      })}
-      { isComplete &&
-        <div className="text-center py-5">COMPLETE!</div>
+  const handleUpdateStep = (newStepData: ScheduleStep) => {
+    const updatedStepIndex = schedule.findIndex((step) => step.id === newStepData.id);
+    const newSchedule = [...schedule];
+    newSchedule.splice(updatedStepIndex, 1, newStepData);
+    setSchedule(newSchedule);
+  }
+
+  const addStep = (newStep: ScheduleStep) => {
+    const newSchedule = [
+      ...schedule,
+      {
+        ...newStep,
+        id: crypto.randomUUID(),
+        stepNumber: schedule.length + 1
       }
-    </div>
+    ];
+
+    setSchedule(newSchedule);
+  }
+
+  const onAddStepCancel = () => {
+    setIsAddStepActive(false);
+    setNewStepData(EMPTY_STEP);
+  }
+
+  const deleteStep = (stepId: string) => {
+    const newSchedule = schedule.filter((step) => step.id !== stepId);
+    setSchedule(newSchedule);
+  }
+
+  // TODO const reorderStep = () => {}
+
+  return (
+    <>
+      <div>
+        {schedule.map(item => {
+          return <Step key={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
+            isActive={activeStepNumber === item.stepNumber} onSkip={() => onSkip(item)} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
+        })}
+      </div>
+
+      { isComplete && <div className="text-center py-5">COMPLETE!</div> }
+
+      { isEditModeActive &&
+        <div className="my-4 h-[3.625rem]">
+          { isAddStepActive
+            ? <StepForm step={newStepData} onSubmit={addStep} onCancel={onAddStepCancel} />
+            : <Button ariaLabel="Add new step" onClick={() => setIsAddStepActive(true)}><Plus /></Button>
+          }
+        </div>
+      }
+    </>
   )
 }
