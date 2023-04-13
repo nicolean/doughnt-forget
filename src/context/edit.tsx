@@ -9,16 +9,16 @@ const EditContext = createContext<EditContextType | null>(null);
 
 function EditProvider({ children }: EditProviderProps) {
   const [isEditModeActive, setIsEditModeActive] = useState<boolean>(false);
-  const [activeEditStep, setActiveEditStep] = useState<number>(-1);
+  const [activeEditStepId, setActiveEditStepId] = useState<string>('');
 
   const value = {
-    activeEditStep: activeEditStep,
+    activeEditStepId: activeEditStepId,
     updateActiveEditStep: (newStepId: number) => {
-      setActiveEditStep(newStepId);
+      setActiveEditStepId(newStepId);
     },
     isEditModeActive: isEditModeActive,
     toggleEditMode: () => {
-      setActiveEditStep(-1);
+      setActiveEditStepId('');
       setIsEditModeActive((isEditModeActive) => !isEditModeActive);
     }
   }

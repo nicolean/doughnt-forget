@@ -16,7 +16,7 @@ interface StepProps {
 }
 
 export default function Step({ step, isActive, isNotificationsEnabled, onSkip, onSaveStep }: StepProps) {
-  const { isEditModeActive, activeEditStep, updateActiveEditStep } = useContext(EditContext) as EditContextType;
+  const { isEditModeActive, activeEditStepId, updateActiveEditStep } = useContext(EditContext) as EditContextType;
 
   const [dynamicClasses, setDynamicClasses] = useState<string>();
   const [isComplete, setIsComplete] = useState<boolean>(false);
@@ -50,15 +50,15 @@ export default function Step({ step, isActive, isNotificationsEnabled, onSkip, o
 
   const onSubmit = (newStepData: ScheduleStep) => {
     onSaveStep(newStepData);
-    updateActiveEditStep(-1);
+    updateActiveEditStep('');
   }
 
   return (
     <div className={`relative h-[3.625rem] not-last:border-b not-last:border-b-blue-300 ${dynamicClasses}`}>
-      { isEditModeActive && activeEditStep === step.id
+      { isEditModeActive && activeEditStepId === step.id
         ? <div className="absolute top-2/4 -translate-y-2/4">
             <div className="relative z-10">
-              <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep(-1)} />
+              <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep('')} />
             </div>
           </div>
         : <div className="grid grid-cols-12 p-4" onClick={onEditClick}>

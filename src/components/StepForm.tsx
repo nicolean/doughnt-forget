@@ -16,6 +16,9 @@ export default function StepForm({ step, onSubmit, onCancel }: StepFormProps) {
   const handleOnSubmit = () => {
     const newStepData = { ...step, name: name, duration: duration };
     onSubmit(newStepData);
+
+    setName('');
+    setDuration('');
   }
 
   return (

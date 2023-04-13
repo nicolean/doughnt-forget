@@ -1,5 +1,5 @@
 export interface EditContextType {
-  activeEditStep: number;
+  activeEditStepId: number;
   updateActiveEditStep: (newStepId: number) => void;
   isEditModeActive: boolean;
   toggleEditMode: () => void;

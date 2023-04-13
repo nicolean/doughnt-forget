@@ -1,5 +1,5 @@
 export interface ScheduleStep {
-  id: number;
+  id: string;
   stepNumber: number;
   name: string;
   type: string;

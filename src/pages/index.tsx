@@ -3,7 +3,6 @@ import { useState, useContext } from 'react';
 import { EditContext } from '@/context/edit';
 import { EditContextType } from '@/types/edit-context';
 import Schedule from '@/components/Schedule';
-import Button from '@/components/Button';
 import NotificationToggle from '@/components/NotificationToggle';
 import { Cancel, EditPencil } from 'iconoir-react';
 
