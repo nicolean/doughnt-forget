@@ -26,10 +26,9 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   const [schedule, setSchedule] = useState<ScheduleStep[]>([...defaultSchedule]);
   const [activeStepNumber, setActiveStepNumber] = useState<number>(1);
   const [isComplete, setIsComplete] = useState<boolean>(false);
-  const [isAddStepActive, setIsAddStepActive] = useState<boolean>(false);
   const [newStepData, setNewStepData] = useState<ScheduleStep>(EMPTY_STEP);
 
-  const { isEditModeActive } = useContext(EditContext) as EditContextType;
+  const { isEditModeActive, isAddStepActive, setIsAddStepActive } = useContext(EditContext) as EditContextType;
 
   // TODO may need to add sorting to schedule based on stepNumber
 
@@ -73,7 +72,7 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
 
   const deleteStep = (id: string) => {}
 
-  const reorderStep = () => {}
+  // TODO const reorderStep = () => {}
 
   return (
     <>
@@ -83,12 +82,16 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
             isActive={activeStepNumber === item.stepNumber} onSkip={() => onSkip(item)} onSaveStep={handleUpdateStep} />
         })}
       </div>
+
       { isComplete && <div className="text-center py-5">COMPLETE!</div> }
+
       { isEditModeActive &&
-        (isAddStepActive
-          ? <StepForm step={newStepData} onSubmit={addStep} onCancel={onAddStepCancel} />
-          : <Button ariaLabel="Add new step" onClick={() => setIsAddStepActive(true)}><Plus /></Button>
-        )
+        <div className="my-2 h-[3.625rem]">
+          { isAddStepActive
+            ? <StepForm step={newStepData} onSubmit={addStep} onCancel={onAddStepCancel} />
+            : <Button ariaLabel="Add new step" onClick={() => setIsAddStepActive(true)}><Plus /></Button>
+          }
+        </div>
       }
     </>
   )
