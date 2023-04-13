@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from 'react';
-import { Cancel, SaveFloppyDisk } from 'iconoir-react';
+import { Cancel, SaveFloppyDisk, Trash } from 'iconoir-react';
 import { ScheduleStep } from '@/types/schedule';
 import Input from './Input';
 
@@ -7,9 +7,10 @@ interface StepFormProps {
   step: ScheduleStep;
   onSubmit: (newStepData: ScheduleStep) => void;
   onCancel: () => void;
+  onDeleteStep?: (stepId: string) => void;
 }
 
-export default function StepForm({ step, onSubmit, onCancel }: StepFormProps) {
+export default function StepForm({ step, onSubmit, onCancel, onDeleteStep }: StepFormProps) {
   const [name, setName] = useState(step.name);
   const [duration, setDuration] = useState(step.duration);
 
@@ -32,8 +33,9 @@ export default function StepForm({ step, onSubmit, onCancel }: StepFormProps) {
         <Input placeholder="HH:MM" value={ duration } onChange={(event: ChangeEvent<HTMLInputElement>) => setDuration(event.target.value)} id="duration" />
       </div>
       <div className="col-span-2 flex justify-end">
-        <button aria-label="Save changes" onClick={handleOnSubmit}><SaveFloppyDisk /></button>
-        <button aria-label="Cancel changes" onClick={onCancel}><Cancel /></button>
+        <button aria-label="Save changes" onClick={handleOnSubmit}><SaveFloppyDisk height="1.25rem" /></button>
+        <button aria-label="Cancel changes" onClick={onCancel}><Cancel height="1.25rem" /></button>
+        { onDeleteStep && step.id && <button aria-label="Delete step" onClick={() => onDeleteStep(step.id)}><Trash height="1.25rem" /></button> }
       </div>
     </div>
   )

@@ -70,7 +70,10 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     setNewStepData(EMPTY_STEP);
   }
 
-  const deleteStep = (id: string) => {}
+  const deleteStep = (stepId: string) => {
+    const newSchedule = schedule.filter((step) => step.id !== stepId);
+    setSchedule(newSchedule);
+  }
 
   // TODO const reorderStep = () => {}
 
@@ -79,14 +82,14 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
       <div>
         {schedule.map(item => {
           return <Step key={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
-            isActive={activeStepNumber === item.stepNumber} onSkip={() => onSkip(item)} onSaveStep={handleUpdateStep} />
+            isActive={activeStepNumber === item.stepNumber} onSkip={() => onSkip(item)} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
         })}
       </div>
 
       { isComplete && <div className="text-center py-5">COMPLETE!</div> }
 
       { isEditModeActive &&
-        <div className="my-2 h-[3.625rem]">
+        <div className="my-4 h-[3.625rem]">
           { isAddStepActive
             ? <StepForm step={newStepData} onSubmit={addStep} onCancel={onAddStepCancel} />
             : <Button ariaLabel="Add new step" onClick={() => setIsAddStepActive(true)}><Plus /></Button>
