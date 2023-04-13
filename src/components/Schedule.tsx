@@ -7,6 +7,7 @@ import StepForm from './StepForm';
 import { defaultSchedule } from '@/data/default-schedule';
 import { ScheduleStep } from '@/types/schedule';
 import { Plus } from 'iconoir-react';
+import JSConfetti from 'js-confetti';
 
 interface ScheduleProps {
   isNotificationsEnabled: boolean;
@@ -42,6 +43,11 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     setActiveStepNumber(Number(activeStepNumber) + 1);
     if (activeStepNumber === schedule.length) {
       setIsComplete(true);
+      const jsConfetti = new JSConfetti()
+      jsConfetti.addConfetti({
+        emojis: ['🥖', '🍞', '🥯', '🫓', '🥪', '🥐'],
+        confettiNumber: 150,
+      });
     }
   }
 
