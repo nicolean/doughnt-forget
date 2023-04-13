@@ -1,4 +1,5 @@
 import { Play, Pause, Check } from 'iconoir-react';
+import { EditPencil } from 'iconoir-react';
 
 interface ScheduleStepActions {
   isPlaying: boolean;
@@ -10,8 +11,10 @@ interface ScheduleStepActions {
 export default function ScheduleStepActions({ isPlaying, onStart, onPause, onSkip }: ScheduleStepActions) {
   return (
     <>
-      { !isPlaying && <button className="mr-1" aria-label="Start" onClick={onStart}><Play /></button> }
-      { isPlaying && <button className="mr-1" aria-label="Pause" onClick={onPause}><Pause /></button> }
+      { isPlaying
+        ? <button className="mr-1" aria-label="Pause" onClick={onPause}><Pause /></button>
+        : <button className="mr-1" aria-label="Start" onClick={onStart}><Play /></button>
+      }
       <button className="mr-1" aria-label="Complete step" onClick={onSkip}><Check /></button>
     </>
   )

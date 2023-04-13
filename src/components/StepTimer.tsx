@@ -1,38 +1,42 @@
-import { useState } from 'react';
-import { ScheduleItem } from '../interfaces/schedule.interface'
+import { useState, useContext } from 'react';
 import { useTimer } from 'react-timer-hook';
-import StepContainer from './StepContainer';
+import { EditContext } from '@/context/edit';
+import { EditContextType } from '@/types/edit-context';
 import ScheduleStepActions from './ScheduleStepActions';
 
-interface ScheduleStepProps {
-  item: ScheduleItem;
-  isActive: boolean;
+interface TimedScheduleStepProps {
+  stepName: string;
+  duration: string;
+  isActive: boolean; // ?
+  isComplete: boolean;
   isNotificationsEnabled: boolean;
+  onComplete: (value: boolean) => void;
   onSkip: () => void;
 }
 
-export default function ScheduleStep({ item, isActive, isNotificationsEnabled, onSkip }: ScheduleStepProps) {
+export default function StepTimer({ stepName, duration, isActive, isComplete, isNotificationsEnabled, onComplete, onSkip }: TimedScheduleStepProps) {
+  const { isEditModeActive } = useContext(EditContext) as EditContextType;
+
   const calculateExpiryTimestamp = () => {
     const time = new Date();
-    const [ hours, minutes ] = (item.duration).split(':').map(i => parseInt(i));
+    const [ hours, minutes ] = (duration).split(':').map(i => parseInt(i));
     const seconds = (hours * 60 * 60) + (minutes * 60);
     time.setSeconds(time.getSeconds() + seconds);
     return time;
   }
 
-  const [isComplete, setIsComplete] = useState(false);
   const [expiryTimestamp, setExpiryTimestamp] = useState(calculateExpiryTimestamp);
 
   const { seconds, minutes, hours, isRunning, start, pause, resume } = useTimer({
     expiryTimestamp,
     autoStart: false,
     onExpire: () => {
-      setIsComplete(true);
+      onComplete(true);
       if (!isNotificationsEnabled) {
         return;
       }
 
-      new Notification('doughnt forget!', {body: `${item.name} is complete`, icon: '/favicon.svg'});
+      new Notification('doughnt forget!', {body: `${stepName} is complete`, icon: '/favicon.svg'});
     }
   })
 
@@ -40,23 +44,22 @@ export default function ScheduleStep({ item, isActive, isNotificationsEnabled, o
 
   const handleOnSkip = () => {
     // TODO may need to pass elapsed time in onSkip to add to total duration
-    setIsComplete(true);
+    onComplete(true);
     pause();
     onSkip();
   }
 
   return (
-    <StepContainer isActive={isActive} isComplete={isComplete}>
-      <div className="basis-6/12">{ item.name }</div>
-      <div className="basis-2/12">{ timeString }</div>
-      <div className="basis-2/12 flex justify-end">
-        { isActive &&
+    <>
+      <div className="col-span-3">{ timeString }</div>
+      <div className="col-span-2 flex justify-end">
+        { isActive && !isEditModeActive &&
           ( isComplete
             ? <button onClick={onSkip}>Next</button>
             : <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
           )
         }
       </div>
-    </StepContainer>
+    </>
   )
 }
