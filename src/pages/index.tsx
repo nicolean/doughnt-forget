@@ -20,8 +20,8 @@ export default function Home() {
 		    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       </Head>
       <main className="w-screen">
-        <div className="w-full px-8 sm:max-w-xl sm:p-0 mx-auto">
-          <div className="pt-10 pb-5 px-1 flex justify-between border-b border-notecard-pink">
+        <div className="w-full px-5 sm:max-w-xl sm:p-0 mx-auto">
+          <div className="pt-8 sm:pt-10 pb-5 px-1 flex justify-between border-b border-notecard-pink">
             <h1 className="text-2xl">doughnt forget</h1>
             <div className="flex">
               <button className="mr-4" aria-label="Toggle edit mode" onClick={toggleEditMode}>

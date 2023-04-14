@@ -71,7 +71,7 @@ export default function Step({ step, isActive, isNotificationsEnabled, onSkip, o
               <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep('')} onDeleteStep={onDeleteStep} />
             </div>
           </div>
-        : <div className="grid grid-cols-12 p-4" onClick={onEditClick}>
+        : <div className="grid grid-cols-12 py-4 px-2 sm:p-4" onClick={onEditClick}>
             <div className="col-span-7">{ step.name }</div>
             { step.duration
               ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={step.isCompleted} isNotificationsEnabled={isNotificationsEnabled} onSkip={handleOnSkip} />

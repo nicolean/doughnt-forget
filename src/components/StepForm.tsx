@@ -24,15 +24,15 @@ export default function StepForm({ step, onSubmit, onCancel, onDeleteStep }: Ste
 
   return (
     <div className="grid grid-cols-12 p-4 rounded bg-white hover:bg-white shadow-lg border-gray-200 border">
-      <div className="col-span-7 pr-3">
+      <div className="col-span-8 sm:col-span-7 pr-3">
         <label className="visually-hidden" htmlFor="name">Name</label>
         <Input placeholder="Name" value={ name } onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)} id="name" />
       </div>
-      <div className="col-span-3 pr-3">
+      <div className="col-span-4 sm:col-span-3 pr-3">
         <label className="visually-hidden" htmlFor="duration">Duration</label>
         <Input placeholder="HH:MM" value={ duration } onChange={(event: ChangeEvent<HTMLInputElement>) => setDuration(event.target.value)} id="duration" />
       </div>
-      <div className="col-span-2 flex justify-end">
+      <div className="col-span-12 sm:col-span-2 flex justify-center sm:justify-end mt-4 sm:mt-0">
         <button aria-label="Save changes" onClick={handleOnSubmit}><SaveFloppyDisk height="1.25rem" /></button>
         <button aria-label="Cancel changes" onClick={onCancel}><Cancel height="1.25rem" /></button>
         { onDeleteStep && step.id && <button aria-label="Delete step" onClick={() => onDeleteStep(step.id)}><Trash height="1.25rem" /></button> }
