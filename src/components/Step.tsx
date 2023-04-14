@@ -11,7 +11,7 @@ interface StepProps {
   step: ScheduleStep;
   isActive: boolean;
   isNotificationsEnabled: boolean;
-  onSkip: () => void;
+  onSkip: (step: ScheduleStep) => void;
   onSaveStep: (newStepData: ScheduleStep) => void;
   onDeleteStep: (stepId: string) => void;
 }
@@ -33,13 +33,22 @@ export default function Step({ step, isActive, isNotificationsEnabled, onSkip, o
       classes.push('text-gray-500');
     }
 
-    if (isComplete) {
+    if (step.isCompleted) {
       classes.push('before:block', 'before:absolute', 'before:top-2/4', 'before:border-b', 'before:w-9/12', 'before:border-gray-700');
     }
 
     setDynamicClasses(classes.join(' '));
-  }, [isActive, isComplete, isEditModeActive]);
+  }, [step, isActive, isEditModeActive]);
 
+  const handleOnSkip = (elapsedSeconds: number) => {
+    const updatedStep = {
+      ...step,
+      isCompleted: true,
+      actualDuration: elapsedSeconds,
+    };
+    onSkip(updatedStep);
+
+  }
 
   const onEditClick = () => {
     if (!isEditModeActive || isComplete) {
@@ -62,11 +71,11 @@ export default function Step({ step, isActive, isNotificationsEnabled, onSkip, o
               <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep('')} onDeleteStep={onDeleteStep} />
             </div>
           </div>
-        : <div className="grid grid-cols-12 p-4" onClick={onEditClick}>
+        : <div className="grid grid-cols-12 py-4 px-2 sm:p-4" onClick={onEditClick}>
             <div className="col-span-7">{ step.name }</div>
             { step.duration
-              ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={isComplete} isNotificationsEnabled={isNotificationsEnabled} onComplete={setIsComplete} onSkip={onSkip} />
-              : <StepStopwatch isActive={isActive} onComplete={setIsComplete} onSkip={onSkip} />
+              ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={step.isCompleted} isNotificationsEnabled={isNotificationsEnabled} onSkip={handleOnSkip} />
+              : <StepStopwatch isActive={isActive} onSkip={handleOnSkip} />
             }
           </div>
       }

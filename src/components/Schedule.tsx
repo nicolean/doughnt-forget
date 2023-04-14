@@ -7,6 +7,7 @@ import StepForm from './StepForm';
 import { defaultSchedule } from '@/data/default-schedule';
 import { ScheduleStep } from '@/types/schedule';
 import { Plus } from 'iconoir-react';
+import JSConfetti from 'js-confetti';
 
 interface ScheduleProps {
   isNotificationsEnabled: boolean;
@@ -18,8 +19,8 @@ const EMPTY_STEP  = {
   name: '',
   type: '',
   duration: '',
-  actualDuration: '',
-  completed: false,
+  actualDuration: 0,
+  isCompleted: false,
 }
 
 export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
@@ -37,12 +38,32 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     setSchedule(filteredSchedule);
   }
 
-  const onSkip = (item: ScheduleStep) => {
+  const onSkip = (step: ScheduleStep) => {
     // TODO handle total addition duration here in the future
     setActiveStepNumber(Number(activeStepNumber) + 1);
+    handleUpdateStep(step);
+
     if (activeStepNumber === schedule.length) {
       setIsComplete(true);
+      const jsConfetti = new JSConfetti()
+      jsConfetti.addConfetti({
+        emojis: ['🥖', '🍞', '🥯', '🫓', '🥪', '🥐'],
+        confettiNumber: 150,
+      });
     }
+  }
+
+  const onScheduleReset = () => {
+    const resetSchedule = schedule.map( step => ({
+        ...step,
+        actualDuration: 0,
+        isCompleted: false
+      })
+    );
+
+    setSchedule(resetSchedule);
+    setActiveStepNumber(1);
+    setIsComplete(false)
   }
 
   const handleUpdateStep = (newStepData: ScheduleStep) => {
@@ -82,11 +103,17 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
       <div>
         {schedule.map(item => {
           return <Step key={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
-            isActive={activeStepNumber === item.stepNumber} onSkip={() => onSkip(item)} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
+            isActive={activeStepNumber === item.stepNumber} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
         })}
       </div>
 
-      { isComplete && <div className="text-center py-5">COMPLETE!</div> }
+      { isComplete &&
+          <div className="text-center py-5">
+            <p>COMPLETE!</p>
+            <div className="mt-5">
+              <Button ariaLabel="Reset schedule" onClick={onScheduleReset}>Reset</Button>
+            </div>
+          </div> }
 
       { isEditModeActive &&
         <div className="my-4 h-[3.625rem]">

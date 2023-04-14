@@ -4,6 +4,6 @@ export interface ScheduleStep {
   name: string;
   type: string;
   duration: string;
-  actualDuration: string;
-  completed: boolean;
+  actualDuration: number;
+  isCompleted: boolean;
 }
