@@ -6,11 +6,10 @@ import ScheduleStepActions from './ScheduleStepActions';
 
 interface StepStopwatchProps {
   isActive: boolean;
-  onComplete: (value: boolean) => void;
-  onSkip: () => void;
+  onSkip: (elapsedSeconds: number) => void;
 }
 
-export default function StepStopwatch({ isActive, onComplete, onSkip }: StepStopwatchProps) {
+export default function StepStopwatch({ isActive, onSkip }: StepStopwatchProps) {
   const { isEditModeActive } = useContext(EditContext) as EditContextType;
 
   const { seconds, minutes, hours, isRunning, start, pause } = useStopwatch({ autoStart: false });
@@ -18,10 +17,10 @@ export default function StepStopwatch({ isActive, onComplete, onSkip }: StepStop
   const timeString = [String(hours).padStart(2, "0"), String(minutes).padStart(2, "0"), String(seconds).padStart(2, "0")].join(':');
 
   const handleOnSkip = () => {
-    // TODO may need to pass elapsed time in onSkip to add to total duration
-    onComplete(true);
     pause();
-    onSkip();
+
+    const elapsedSeconds = (hours * 60 * 60) + (minutes * 60) + seconds;
+    onSkip(elapsedSeconds);
   }
 
   return (

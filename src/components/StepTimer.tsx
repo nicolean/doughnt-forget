@@ -7,20 +7,22 @@ import ScheduleStepActions from './ScheduleStepActions';
 interface TimedScheduleStepProps {
   stepName: string;
   duration: string;
-  isActive: boolean; // ?
+  isActive: boolean;
   isComplete: boolean;
   isNotificationsEnabled: boolean;
-  onComplete: (value: boolean) => void;
-  onSkip: () => void;
+  onSkip: (elapsedSeconds: number) => void;
 }
 
-export default function StepTimer({ stepName, duration, isActive, isComplete, isNotificationsEnabled, onComplete, onSkip }: TimedScheduleStepProps) {
+export default function StepTimer({ stepName, duration, isActive, isComplete, isNotificationsEnabled, onSkip }: TimedScheduleStepProps) {
   const { isEditModeActive } = useContext(EditContext) as EditContextType;
+  const [isTimerComplete, setIsTimerComplete] = useState<boolean>(false);
+  const [totalSeconds, setTotalSeconds] = useState<number>(0);
 
   const calculateExpiryTimestamp = () => {
     const time = new Date();
     const [ hours, minutes ] = (duration).split(':').map(i => parseInt(i));
     const seconds = (hours * 60 * 60) + (minutes * 60);
+    setTotalSeconds(seconds);
     time.setSeconds(time.getSeconds() + seconds);
     return time;
   }
@@ -31,7 +33,7 @@ export default function StepTimer({ stepName, duration, isActive, isComplete, is
     expiryTimestamp,
     autoStart: false,
     onExpire: () => {
-      onComplete(true);
+      setIsTimerComplete(true);
       if (!isNotificationsEnabled) {
         return;
       }
@@ -43,10 +45,10 @@ export default function StepTimer({ stepName, duration, isActive, isComplete, is
   const timeString = [String(hours).padStart(2, "0"), String(minutes).padStart(2, "0"), String(seconds).padStart(2, "0")].join(':');
 
   const handleOnSkip = () => {
-    // TODO may need to pass elapsed time in onSkip to add to total duration
-    onComplete(true);
     pause();
-    onSkip();
+
+    const elapsedSeconds = totalSeconds - ((hours * 60 * 60) + (minutes * 60) + seconds);
+    onSkip(elapsedSeconds);
   }
 
   return (
@@ -54,8 +56,8 @@ export default function StepTimer({ stepName, duration, isActive, isComplete, is
       <div className="col-span-3">{ timeString }</div>
       <div className="col-span-2 flex justify-end">
         { isActive && !isEditModeActive &&
-          ( isComplete
-            ? <button onClick={onSkip}>Next</button>
+          ( isTimerComplete
+            ? <button onClick={() => onSkip(totalSeconds)}>Next</button>
             : <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
           )
         }

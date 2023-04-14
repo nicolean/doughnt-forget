@@ -5,8 +5,8 @@ export const defaultSchedule = [
     name: 'Levain',
     type: 'Rest',
     duration: '00:01',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '2',
@@ -14,8 +14,8 @@ export const defaultSchedule = [
     name: 'Mix',
     type: 'Action',
     duration: '',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '3',
@@ -23,8 +23,8 @@ export const defaultSchedule = [
     name: 'Rest',
     type: 'Rest',
     duration: '0:01',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '4',
@@ -32,8 +32,8 @@ export const defaultSchedule = [
     name: 'Salt',
     type: 'Action',
     duration: '',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '5',
@@ -41,8 +41,8 @@ export const defaultSchedule = [
     name: 'Rest',
     type: 'Rest',
     duration: '0:30',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '6',
@@ -50,8 +50,8 @@ export const defaultSchedule = [
     name: 'Stretch & Fold',
     type: 'Action',
     duration: '',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '7',
@@ -59,8 +59,8 @@ export const defaultSchedule = [
     name: 'Rest',
     type: 'Rest',
     duration: '0:30',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '8',
@@ -68,8 +68,8 @@ export const defaultSchedule = [
     name: 'Stretch & Fold',
     type: 'Action',
     duration: '',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '9',
@@ -77,8 +77,8 @@ export const defaultSchedule = [
     name: 'Rest',
     type: 'Rest',
     duration: '0:30',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '10',
@@ -86,8 +86,8 @@ export const defaultSchedule = [
     name: 'Pre-Shape',
     type: 'Action',
     duration: '',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '11',
@@ -95,8 +95,8 @@ export const defaultSchedule = [
     name: 'Rest',
     type: 'Rest',
     duration: '0:30',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '12',
@@ -104,8 +104,8 @@ export const defaultSchedule = [
     name: 'Shape',
     type: 'Action',
     duration: '',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   },
   {
     id: '13',
@@ -113,7 +113,7 @@ export const defaultSchedule = [
     name: 'Bulk Fermentation',
     type: 'Rest',
     duration: '4:00',
-    actualDuration: '',
-    completed: false
+    actualDuration: 0,
+    isCompleted: false
   }
 ]
