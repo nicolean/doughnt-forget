@@ -7,3 +7,8 @@ export interface ScheduleStep {
   actualDuration: number;
   isCompleted: boolean;
 }
+
+export interface StepFormData {
+  name: string;
+  duration?: string;
+}

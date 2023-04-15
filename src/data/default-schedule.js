@@ -22,7 +22,7 @@ export const defaultSchedule = [
     stepNumber: 3,
     name: 'Rest',
     type: 'Rest',
-    duration: '0:01',
+    duration: '00:01',
     actualDuration: 0,
     isCompleted: false
   },
@@ -58,7 +58,7 @@ export const defaultSchedule = [
     stepNumber: 7,
     name: 'Rest',
     type: 'Rest',
-    duration: '0:30',
+    duration: '00:30',
     actualDuration: 0,
     isCompleted: false
   },
@@ -76,7 +76,7 @@ export const defaultSchedule = [
     stepNumber: 9,
     name: 'Rest',
     type: 'Rest',
-    duration: '0:30',
+    duration: '00:30',
     actualDuration: 0,
     isCompleted: false
   },
@@ -94,7 +94,7 @@ export const defaultSchedule = [
     stepNumber: 11,
     name: 'Rest',
     type: 'Rest',
-    duration: '0:30',
+    duration: '00:30',
     actualDuration: 0,
     isCompleted: false
   },
@@ -112,7 +112,7 @@ export const defaultSchedule = [
     stepNumber: 13,
     name: 'Bulk Fermentation',
     type: 'Rest',
-    duration: '4:00',
+    duration: '04:00',
     actualDuration: 0,
     isCompleted: false
   }

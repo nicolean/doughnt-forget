@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from 'react';
 import { Cancel, SaveFloppyDisk, Trash } from 'iconoir-react';
-import { ScheduleStep } from '@/types/schedule';
-import Input from './Input';
+import { ScheduleStep, StepFormData } from '@/types/schedule';
+import { useForm } from 'react-hook-form';
 
 interface StepFormProps {
   step: ScheduleStep;
@@ -11,29 +11,34 @@ interface StepFormProps {
 }
 
 export default function StepForm({ step, onSubmit, onCancel, onDeleteStep }: StepFormProps) {
-  const [name, setName] = useState(step.name);
-  const [duration, setDuration] = useState(step.duration);
+  const { register, handleSubmit, formState: { errors }} = useForm({
+    defaultValues: {
+      name: step.name,
+      duration: step.duration
+    }
+  });
 
-  const handleOnSubmit = () => {
-    const newStepData = { ...step, name: name, duration: duration };
+  const handleOnSubmit = (data: StepFormData) => {
+    const newStepData = { ...step, ...data };
     onSubmit(newStepData);
-
-    setName('');
-    setDuration('');
   }
 
   return (
     <div className="grid grid-cols-12 p-4 rounded bg-white hover:bg-white shadow-lg border-gray-200 border">
-      <div className="col-span-8 sm:col-span-7 pr-3">
+      <div className="relative col-span-8 sm:col-span-7 pr-3">
         <label className="visually-hidden" htmlFor="name">Name</label>
-        <Input placeholder="Name" value={ name } onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)} id="name" />
+        <input id="name" placeholder="Name*" className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.name && 'border-red-600'}`}
+          {...register('name', { required: true })}  aria-invalid={errors.name ? 'true' : 'false'} />
+          { errors.name?.type === 'required' && <p className="absolute bg-white text-xs text-red-600 p-1 -top-3 left-1">Required</p> }
       </div>
-      <div className="col-span-4 sm:col-span-3 pr-3">
+      <div className="relative col-span-4 sm:col-span-3 pr-3">
         <label className="visually-hidden" htmlFor="duration">Duration</label>
-        <Input placeholder="HH:MM" value={ duration } onChange={(event: ChangeEvent<HTMLInputElement>) => setDuration(event.target.value)} id="duration" />
+        <input id="duration" placeholder="HH:MM" className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.duration && 'border-red-600'}`}
+          {...register('duration', { pattern: /^([0-9][0-9]):([0-5][0-9])/i })} aria-invalid={errors.duration ? 'true' : 'false'} />
+          { errors.duration?.type === 'pattern' && <p className="absolute bg-white text-xs text-red-600 p-1 -top-3 left-1">HH:MM</p> }
       </div>
       <div className="col-span-12 sm:col-span-2 flex justify-center sm:justify-end mt-4 sm:mt-0">
-        <button aria-label="Save changes" onClick={handleOnSubmit}><SaveFloppyDisk height="1.25rem" /></button>
+        <button aria-label="Save changes" onClick={handleSubmit(handleOnSubmit)}><SaveFloppyDisk height="1.25rem" /></button>
         <button aria-label="Cancel changes" onClick={onCancel}><Cancel height="1.25rem" /></button>
         { onDeleteStep && step.id && <button aria-label="Delete step" onClick={() => onDeleteStep(step.id)}><Trash height="1.25rem" /></button> }
       </div>
