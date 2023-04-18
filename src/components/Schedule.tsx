@@ -6,7 +6,7 @@ import Button from './Button';
 import StepForm from './StepForm';
 import { defaultSchedule } from '@/data/default-schedule';
 import { ScheduleStep } from '@/types/schedule';
-import { Plus } from 'iconoir-react';
+import { Plus } from 'react-feather';
 import JSConfetti from 'js-confetti';
 
 interface ScheduleProps {

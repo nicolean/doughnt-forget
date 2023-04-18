@@ -4,7 +4,7 @@ import { EditContext } from '@/context/edit';
 import { EditContextType } from '@/types/edit-context';
 import Schedule from '@/components/Schedule';
 import NotificationToggle from '@/components/NotificationToggle';
-import { Cancel, EditPencil } from 'iconoir-react';
+import { X, Edit } from 'react-feather';
 
 export default function Home() {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState<boolean>(false);
@@ -26,8 +26,8 @@ export default function Home() {
             <div className="flex">
               <button className="mr-4" aria-label="Toggle edit mode" onClick={toggleEditMode}>
                 { isEditModeActive
-                    ? <><span className="visually-hidden">Disable edit mode</span><Cancel /></>
-                    : <><span className="visually-hidden">Enable edit mode</span><EditPencil /></>
+                    ? <><span className="visually-hidden">Disable edit mode</span><X size={26} /></>
+                    : <><span className="visually-hidden">Enable edit mode</span><Edit size={22} /></>
                 }
               </button>
               <NotificationToggle isNotificationsEnabled={isNotificationsEnabled} setIsNotificationsEnabled={setIsNotificationsEnabled}  />

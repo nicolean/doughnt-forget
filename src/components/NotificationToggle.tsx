@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Bell, BellOff } from 'iconoir-react';
+import { Bell, BellOff } from 'react-feather';
 
 interface NotificationToggleProps {
   isNotificationsEnabled: boolean;
