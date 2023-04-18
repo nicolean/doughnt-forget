@@ -12,7 +12,7 @@ interface StepFormProps {
 }
 
 export default function StepForm({ step, onSubmit, onCancel, onDeleteStep }: StepFormProps) {
-  const { register, handleSubmit, formState: { errors }} = useForm({
+  const { register, handleSubmit, reset, formState: { errors }} = useForm({
     defaultValues: {
       name: step.name,
       duration: step.duration
@@ -22,6 +22,7 @@ export default function StepForm({ step, onSubmit, onCancel, onDeleteStep }: Ste
   const handleOnSubmit = (data: StepFormData) => {
     const newStepData = { ...step, ...data };
     onSubmit(newStepData);
+    reset({ name: '', duration: '' });
   }
 
   return (
