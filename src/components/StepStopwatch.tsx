@@ -25,7 +25,7 @@ export default function StepStopwatch({ isActive, onSkip }: StepStopwatchProps) 
 
   return (
     <>
-      <div className="col-span-3">{ timeString }</div>
+      <div className="col-span-4 sm:col-span-3">{ timeString }</div>
       { isActive && !isEditModeActive &&
         <div className="col-span-2 flex justify-end">
           <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />

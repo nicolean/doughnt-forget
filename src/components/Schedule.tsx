@@ -159,10 +159,10 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
       { !isEditModeActive &&
         <>
           <div className="grid grid-cols-12 py-4 px-2 sm:p-4 border-t border-t-blue-300">
-            <div className="col-span-7">
+            <div className="col-span-6 sm:col-span-7">
               Total Time
             </div>
-            <div className="col-span-3">
+            <div className="col-span-4 sm:col-span-3">
               { totalDurationString }
             </div>
           </div>

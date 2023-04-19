@@ -81,15 +81,18 @@ export default function Step({ id, step, isActive, isNotificationsEnabled, onSki
   }
 
   return (
-    <div className={`relative h-[3.625rem] bg-white not-first:border-t not-first:border-t-blue-300 ${dynamicClasses}`} style={style} ref={setNodeRef}>
+    <div className={`relative bg-white not-first:border-t not-first:border-t-blue-300 ${dynamicClasses}`} style={style} ref={setNodeRef}>
       { isEditModeActive && activeEditStepId === step.id
-        ? <div className="absolute top-2/4 -translate-y-2/4 z-10">
-            <div className="relative">
-              <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep('')} onDeleteStep={onDeleteStep} />
+        ? <div className="grid grid-cols-12 py-4">
+            <div className="col-span-7">{ step.name }</div>
+            <div className="absolute top-2/4 -translate-y-2/4 z-10">
+              <div className="relative">
+                <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep('')} onDeleteStep={onDeleteStep} />
+              </div>
             </div>
           </div>
-        : <div className="grid grid-cols-12 py-4 px-2 sm:p-4" onClick={onEditClick}>
-            <div className="col-span-7">{ step.name }</div>
+        : <div className="grid grid-cols-12 py-4 px-2 sm:px-4" onClick={onEditClick}>
+            <div className="col-span-6 sm:col-span-7">{ step.name }</div>
             { step.duration
               ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={step.isCompleted} isNotificationsEnabled={isNotificationsEnabled} onSkip={handleOnSkip} />
               : <StepStopwatch isActive={isActive} onSkip={handleOnSkip} />
