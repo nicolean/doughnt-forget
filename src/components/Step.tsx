@@ -83,9 +83,9 @@ export default function Step({ id, step, isActive, isNotificationsEnabled, onSki
   return (
     <div className={`relative bg-white not-first:border-t not-first:border-t-blue-300 ${dynamicClasses}`} style={style} ref={setNodeRef}>
       { isEditModeActive && activeEditStepId === step.id
-        ? <div className="grid grid-cols-12 py-4">
+        ? <div className="w-full grid grid-cols-12 py-4">
             <div className="col-span-7">{ step.name }</div>
-            <div className="absolute top-2/4 -translate-y-2/4 z-10">
+            <div className="w-full absolute top-2/4 -translate-y-2/4 z-10">
               <div className="relative">
                 <StepForm step={step} onSubmit={onSubmit} onCancel={() => updateActiveEditStep('')} onDeleteStep={onDeleteStep} />
               </div>
