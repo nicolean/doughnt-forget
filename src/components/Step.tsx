@@ -8,6 +8,7 @@ import StepTimer from './StepTimer';
 import StepStopwatch from './StepStopwatch';
 import StepForm from './StepForm';
 import ScheduleStepActions from './ScheduleStepActions';
+import GrabIcon from './GrabIcon';
 
 
 interface StepProps {
@@ -81,7 +82,7 @@ export default function Step({ id, step, isActive, isNotificationsEnabled, onSki
   }
 
   return (
-    <div className={`relative h-[3.625rem] bg-white not-last:border-b not-last:border-b-blue-300 ${dynamicClasses}`} style={style} ref={setNodeRef} {...attributes} {...listeners}>
+    <div className={`relative h-[3.625rem] bg-white not-last:border-b not-last:border-b-blue-300 ${dynamicClasses}`} style={style} ref={setNodeRef}>
       { isEditModeActive && activeEditStepId === step.id
         ? <div className="absolute top-2/4 -translate-y-2/4 z-10">
             <div className="relative">
@@ -93,6 +94,11 @@ export default function Step({ id, step, isActive, isNotificationsEnabled, onSki
             { step.duration
               ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={step.isCompleted} isNotificationsEnabled={isNotificationsEnabled} onSkip={handleOnSkip} />
               : <StepStopwatch isActive={isActive} onSkip={handleOnSkip} />
+            }
+            { isEditModeActive &&
+              <div className="col-span-2 flex justify-end">
+                <button {...attributes} {...listeners} className="mr-2 cursor-grabbing"><GrabIcon /></button>
+              </div>
             }
           </div>
       }
