@@ -51,9 +51,10 @@ export default function StepTimer({ stepName, duration, isActive, isComplete, is
     onSkip(elapsedSeconds);
   }
 
+  // TODO find a way to extract these column definitions here since they're shred in StepStopwatch & Schedule
   return (
     <>
-      <div className="col-span-3">{ timeString }</div>
+      <div className="col-span-4 sm:col-span-3">{ timeString }</div>
       { isActive && !isEditModeActive &&
         <div className="col-span-2 flex justify-end">
           { isTimerComplete

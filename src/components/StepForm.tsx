@@ -33,7 +33,7 @@ export default function StepForm({ step, onSubmit, onCancel, onDeleteStep }: Ste
           {...register('name', { required: true })}  aria-invalid={errors.name ? 'true' : 'false'} />
           { errors.name?.type === 'required' && <p className="absolute bg-white text-xs text-red-600 p-1 -top-3 left-1">Required</p> }
       </div>
-      <div className="relative col-span-4 sm:col-span-3 pr-3">
+      <div className="relative col-span-4 sm:col-span-3 sm:pr-3">
         <label className="visually-hidden" htmlFor="duration">Duration</label>
         <input id="duration" placeholder="HH:MM" className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.duration && 'border-red-600'}`}
           {...register('duration', { pattern: /^([0-9][0-9]):([0-5][0-9])/i })} aria-invalid={errors.duration ? 'true' : 'false'} />
