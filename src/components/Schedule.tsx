@@ -29,6 +29,8 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [newStepData, setNewStepData] = useState<ScheduleStep>(EMPTY_STEP);
+  const [totalDuration, setTotalDuration] = useState<number>(0);
+  const [totalDurationString, setTotalDurationString] = useState<string>('00:00:00');
 
   const { isEditModeActive, isAddStepActive, setIsAddStepActive } = useContext(EditContext) as EditContextType;
 
@@ -45,7 +47,7 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   }
 
   const onSkip = (step: ScheduleStep) => {
-    // TODO handle total addition duration here in the future
+    updateTotalDuration(step.actualDuration);
     setActiveStepIndex(activeStepIndex + 1);
     handleUpdateStep(step);
 
@@ -59,6 +61,16 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     }
   }
 
+  const updateTotalDuration = (secondsToAdd: number) => {
+    const newTotalDuration = totalDuration + secondsToAdd;
+    setTotalDuration(newTotalDuration);
+
+    let h = Math.floor(newTotalDuration / 3600);
+    let m = Math.floor(newTotalDuration % 3600 / 60);
+    let s = Math.floor(newTotalDuration % 3600 % 60);
+    setTotalDurationString([String(h).padStart(2, "0"), String(m).padStart(2, "0"), String(s).padStart(2, "0")].join(':'));
+  }
+
   const onScheduleReset = () => {
     const resetSchedule = schedule.map( step => ({
         ...step,
@@ -70,6 +82,8 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     setSchedule(resetSchedule);
     setActiveStepIndex(0);
     setIsComplete(false)
+    setTotalDuration(0);
+    setTotalDurationString('00:00:00');
   }
 
   const handleUpdateStep = (newStepData: ScheduleStep) => {
@@ -117,29 +131,21 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   return (
     <>
       { isEditModeActive
-          ? <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleOnDragEnd}>
-              <SortableContext items={schedule} strategy={verticalListSortingStrategy}>
-                {schedule.map((item, index) => {
-                  return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
-                    isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
-                })}
-              </SortableContext>
-            </DndContext>
-          : <div>
+        ? <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleOnDragEnd}>
+            <SortableContext items={schedule} strategy={verticalListSortingStrategy}>
               {schedule.map((item, index) => {
                 return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
                   isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
               })}
-            </div>
+            </SortableContext>
+          </DndContext>
+        : <div>
+            {schedule.map((item, index) => {
+              return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
+                isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
+            })}
+          </div>
       }
-
-      { isComplete &&
-          <div className="text-center py-5">
-            <p>COMPLETE!</p>
-            <div className="mt-5">
-              <Button ariaLabel="Reset schedule" onClick={onScheduleReset}>Reset</Button>
-            </div>
-          </div> }
 
       { isEditModeActive &&
         <div className="my-4 h-[3.625rem]">
@@ -148,6 +154,28 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
             : <Button ariaLabel="Add new step" onClick={() => setIsAddStepActive(true)}><Plus /></Button>
           }
         </div>
+      }
+
+      { !isEditModeActive &&
+        <>
+          <div className="grid grid-cols-12 py-4 px-2 sm:p-4 border-t border-t-blue-300">
+            <div className="col-span-7">
+              Total Time
+            </div>
+            <div className="col-span-3">
+              { totalDurationString }
+            </div>
+          </div>
+
+          { isComplete &&
+            <div className="text-center py-5">
+              <p>COMPLETE!</p>
+              <div className="mt-3">
+                <Button ariaLabel="Reset schedule" onClick={onScheduleReset}>Reset</Button>
+              </div>
+            </div>
+          }
+        </>
       }
     </>
   )
