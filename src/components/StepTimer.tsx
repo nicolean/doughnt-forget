@@ -54,14 +54,14 @@ export default function StepTimer({ stepName, duration, isActive, isComplete, is
   return (
     <>
       <div className="col-span-3">{ timeString }</div>
-      <div className="col-span-2 flex justify-end">
-        { isActive && !isEditModeActive &&
-          ( isTimerComplete
+      { isActive && !isEditModeActive &&
+        <div className="col-span-2 flex justify-end">
+          { isTimerComplete
             ? <button onClick={() => onSkip(totalSeconds)}>Next</button>
             : <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
-          )
-        }
-      </div>
+          }
+        </div>
+      }
     </>
   )
 }
