@@ -2,10 +2,14 @@ import { useEffect, useState, useContext } from 'react';
 import { EditContext } from '../context/edit';
 import { EditContextType } from '@/types/edit-context';
 import { ScheduleStep } from '@/types/schedule';
+import { useSortable } from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
 import StepTimer from './StepTimer';
 import StepStopwatch from './StepStopwatch';
 import StepForm from './StepForm';
 import ScheduleStepActions from './ScheduleStepActions';
+import GrabIcon from './GrabIcon';
+
 
 interface StepProps {
   step: ScheduleStep;
@@ -14,14 +18,28 @@ interface StepProps {
   onSkip: (step: ScheduleStep) => void;
   onSaveStep: (newStepData: ScheduleStep) => void;
   onDeleteStep: (stepId: string) => void;
+  id: string;
 }
 
-export default function Step({ step, isActive, isNotificationsEnabled, onSkip, onSaveStep, onDeleteStep }: StepProps) {
+export default function Step({ id, step, isActive, isNotificationsEnabled, onSkip, onSaveStep, onDeleteStep }: StepProps) {
   const { isEditModeActive, activeEditStepId, updateActiveEditStep } = useContext(EditContext) as EditContextType;
 
   const [dynamicClasses, setDynamicClasses] = useState<string>();
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({id: id});
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   useEffect(() => {
     // TODO clean this up
@@ -64,7 +82,7 @@ export default function Step({ step, isActive, isNotificationsEnabled, onSkip, o
   }
 
   return (
-    <div className={`relative h-[3.625rem] not-last:border-b not-last:border-b-blue-300 ${dynamicClasses}`}>
+    <div className={`relative h-[3.625rem] bg-white not-last:border-b not-last:border-b-blue-300 ${dynamicClasses}`} style={style} ref={setNodeRef}>
       { isEditModeActive && activeEditStepId === step.id
         ? <div className="absolute top-2/4 -translate-y-2/4 z-10">
             <div className="relative">
@@ -76,6 +94,11 @@ export default function Step({ step, isActive, isNotificationsEnabled, onSkip, o
             { step.duration
               ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={step.isCompleted} isNotificationsEnabled={isNotificationsEnabled} onSkip={handleOnSkip} />
               : <StepStopwatch isActive={isActive} onSkip={handleOnSkip} />
+            }
+            { isEditModeActive &&
+              <div className="col-span-2 flex justify-end">
+                <button {...attributes} {...listeners} className="mr-2 cursor-grabbing"><GrabIcon /></button>
+              </div>
             }
           </div>
       }

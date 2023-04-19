@@ -1,5 +1,4 @@
-import { Play, Pause, Check } from 'iconoir-react';
-import { EditPencil } from 'iconoir-react';
+import { Play, Pause, Check } from 'react-feather';
 
 interface ScheduleStepActions {
   isPlaying: boolean;

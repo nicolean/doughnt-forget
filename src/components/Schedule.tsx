@@ -6,8 +6,10 @@ import Button from './Button';
 import StepForm from './StepForm';
 import { defaultSchedule } from '@/data/default-schedule';
 import { ScheduleStep } from '@/types/schedule';
-import { Plus } from 'iconoir-react';
+import { Plus } from 'react-feather';
 import JSConfetti from 'js-confetti';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 interface ScheduleProps {
   isNotificationsEnabled: boolean;
@@ -15,7 +17,6 @@ interface ScheduleProps {
 
 const EMPTY_STEP  = {
   id: '',
-  stepNumber: 0,
   name: '',
   type: '',
   duration: '',
@@ -25,13 +26,18 @@ const EMPTY_STEP  = {
 
 export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   const [schedule, setSchedule] = useState<ScheduleStep[]>([...defaultSchedule]);
-  const [activeStepNumber, setActiveStepNumber] = useState<number>(1);
+  const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [newStepData, setNewStepData] = useState<ScheduleStep>(EMPTY_STEP);
 
   const { isEditModeActive, isAddStepActive, setIsAddStepActive } = useContext(EditContext) as EditContextType;
 
-  // TODO may need to add sorting to schedule based on stepNumber
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const removeItem = (removedItem: ScheduleStep) => {
     let filteredSchedule = [...schedule].filter(item => item !== removedItem);
@@ -40,10 +46,10 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
 
   const onSkip = (step: ScheduleStep) => {
     // TODO handle total addition duration here in the future
-    setActiveStepNumber(Number(activeStepNumber) + 1);
+    setActiveStepIndex(activeStepIndex + 1);
     handleUpdateStep(step);
 
-    if (activeStepNumber === schedule.length) {
+    if ((activeStepIndex + 1) === schedule.length) {
       setIsComplete(true);
       const jsConfetti = new JSConfetti()
       jsConfetti.addConfetti({
@@ -62,7 +68,7 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     );
 
     setSchedule(resetSchedule);
-    setActiveStepNumber(1);
+    setActiveStepIndex(0);
     setIsComplete(false)
   }
 
@@ -79,7 +85,6 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
       {
         ...newStep,
         id: crypto.randomUUID(),
-        stepNumber: schedule.length + 1
       }
     ];
 
@@ -96,16 +101,37 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     setSchedule(newSchedule);
   }
 
-  // TODO const reorderStep = () => {}
+  // TODO define and implement logic for editing an already-started schedule
+  const handleOnDragEnd = (event: any) => {
+    const {active, over} = event;
+
+    if (active.id !== over.id) {
+      setSchedule((items) => {
+        const oldIndex = schedule.findIndex((step) => step.id === active.id);
+        const newIndex = schedule.findIndex((step) => step.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
 
   return (
     <>
-      <div>
-        {schedule.map(item => {
-          return <Step key={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
-            isActive={activeStepNumber === item.stepNumber} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
-        })}
-      </div>
+      { isEditModeActive
+          ? <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleOnDragEnd}>
+              <SortableContext items={schedule} strategy={verticalListSortingStrategy}>
+                {schedule.map((item, index) => {
+                  return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
+                    isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
+                })}
+              </SortableContext>
+            </DndContext>
+          : <div>
+              {schedule.map((item, index) => {
+                return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
+                  isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
+              })}
+            </div>
+      }
 
       { isComplete &&
           <div className="text-center py-5">
