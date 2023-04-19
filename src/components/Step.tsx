@@ -81,7 +81,7 @@ export default function Step({ id, step, isActive, isNotificationsEnabled, onSki
   }
 
   return (
-    <div className={`relative h-[3.625rem] bg-white not-first:border-t not-first:border-t-blue-300 touch-none ${dynamicClasses}`} style={style} ref={setNodeRef}>
+    <div className={`relative h-[3.625rem] bg-white not-first:border-t not-first:border-t-blue-300 ${dynamicClasses}`} style={style} ref={setNodeRef}>
       { isEditModeActive && activeEditStepId === step.id
         ? <div className="absolute top-2/4 -translate-y-2/4 z-10">
             <div className="relative">
@@ -95,7 +95,7 @@ export default function Step({ id, step, isActive, isNotificationsEnabled, onSki
               : <StepStopwatch isActive={isActive} onSkip={handleOnSkip} />
             }
             { isEditModeActive &&
-              <div className="col-span-2 flex justify-end">
+              <div className="col-span-2 flex justify-end touch-none">
                 <button {...attributes} {...listeners} className="mr-2 cursor-grabbing"><GrabIcon /></button>
               </div>
             }
