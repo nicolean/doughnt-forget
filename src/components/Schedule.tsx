@@ -131,14 +131,25 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   return (
     <>
       { isEditModeActive
-        ? <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleOnDragEnd}>
-            <SortableContext items={schedule} strategy={verticalListSortingStrategy}>
-              {schedule.map((item, index) => {
+        ?
+          <>
+            {schedule.map((item, index) => {
+              if (item.isCompleted) {
                 return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
                   isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
-              })}
-            </SortableContext>
-          </DndContext>
+              }
+            })}
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleOnDragEnd}>
+              <SortableContext items={schedule} strategy={verticalListSortingStrategy}>
+                {schedule.map((item, index) => {
+                  if (!item.isCompleted) {
+                    return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
+                      isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
+                  }
+                })}
+              </SortableContext>
+            </DndContext>
+          </>
         : <div>
             {schedule.map((item, index) => {
               return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}

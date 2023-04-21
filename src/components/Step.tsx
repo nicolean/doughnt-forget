@@ -68,7 +68,7 @@ export default function Step({ id, step, isActive, isNotificationsEnabled, onSki
   }
 
   const onEditClick = () => {
-    if (!isEditModeActive || isComplete) {
+    if (!isEditModeActive || step.isCompleted) {
       return;
     }
 
@@ -97,7 +97,7 @@ export default function Step({ id, step, isActive, isNotificationsEnabled, onSki
               ? <StepTimer stepName={step.name} duration={step.duration} isActive={isActive} isComplete={step.isCompleted} isNotificationsEnabled={isNotificationsEnabled} onSkip={handleOnSkip} />
               : <StepStopwatch isActive={isActive} onSkip={handleOnSkip} />
             }
-            { isEditModeActive &&
+            { isEditModeActive && !step.isCompleted &&
               <div className="col-span-2 flex justify-end touch-none">
                 <button {...attributes} {...listeners} className="mr-2 cursor-grabbing"><GrabIcon /></button>
               </div>
