@@ -7,7 +7,6 @@ import { CSS } from '@dnd-kit/utilities';
 import StepTimer from './StepTimer';
 import StepStopwatch from './StepStopwatch';
 import StepForm from './StepForm';
-import ScheduleStepActions from './ScheduleStepActions';
 import GrabIcon from './GrabIcon';
 
 interface StepProps {

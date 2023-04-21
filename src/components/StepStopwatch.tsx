@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 import { EditContext } from '@/context/edit';
 import { EditContextType } from '@/types/edit-context';
-import ScheduleStepActions from './ScheduleStepActions';
+import StepActions from './StepActions';
 
 interface StepStopwatchProps {
   isActive: boolean;
@@ -28,7 +28,7 @@ export default function StepStopwatch({ isActive, onSkip }: StepStopwatchProps) 
       <div className="col-span-4 sm:col-span-3">{ timeString }</div>
       { isActive && !isEditModeActive &&
         <div className="col-span-2 flex justify-end">
-          <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
+          <StepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
         </div>
       }
     </>
