@@ -58,8 +58,8 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
               </>
             }
         </button>
-        { // TODO decide if this should remain
-          !isNotificationsAllowed && <div className="opacity-0 group-hover:opacity-100 duration-100 ease-in-out absolute text-xs bg-slate-700 text-white py-1 px-2 rounded top-12 whitespace-nowrap left-2/4 -translate-y-2/4 -translate-x-2/4">Allow browser notifications to enable</div>
+        { !isNotificationsAllowed &&
+          <div className="absolute top-12 left-2/4 -translate-y-2/4 -translate-x-2/4 opacity-0 group-hover:opacity-100 duration-100 ease-in-out bg-slate-700 py-1 px-2 rounded text-xs text-white whitespace-nowrap z-20">Allow browser notifications to enable</div>
         }
       </div>
     : null
