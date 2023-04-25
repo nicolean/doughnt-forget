@@ -23,9 +23,7 @@ export default function Home() {
       <main className="w-screen">
         <div className="w-full px-5 sm:max-w-xl sm:p-0 mx-auto">
           <ScheduleHeader isNotificationsEnabled={isNotificationsEnabled} setIsNotificationsEnabled={setIsNotificationsEnabled} />
-          <div>
-            <Schedule isNotificationsEnabled={isNotificationsEnabled} />
-          </div>
+          <Schedule isNotificationsEnabled={isNotificationsEnabled} />
         </div>
       </main>
     </>
