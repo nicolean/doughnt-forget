@@ -11,3 +11,8 @@ export interface StepFormData {
   name: string;
   duration?: string;
 }
+
+export interface ScheduleContextType {
+  schedule: ScheduleStep[],
+  setSchedule: () => void,
+}
