@@ -1,13 +1,13 @@
 import { Play, Pause, Check } from 'react-feather';
 
-interface ScheduleStepActions {
+interface StepActions {
   isPlaying: boolean;
   onStart: () => void;
   onPause: () => void;
   onSkip: () => void;
 }
 
-export default function ScheduleStepActions({ isPlaying, onStart, onPause, onSkip }: ScheduleStepActions) {
+export default function StepActions({ isPlaying, onStart, onPause, onSkip }: StepActions) {
   return (
     <>
       { isPlaying

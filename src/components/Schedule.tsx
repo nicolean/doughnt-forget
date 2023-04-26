@@ -1,6 +1,8 @@
 import { useState, useContext } from 'react';
 import { EditContext } from '@/context/edit';
 import { EditContextType } from '@/types/edit-context';
+import { ScheduleContext } from '@/context/schedule';
+import { ScheduleContextType } from '@/types/schedule';
 import Step from './Step';
 import Button from './Button';
 import StepForm from './StepForm';
@@ -25,7 +27,6 @@ const EMPTY_STEP  = {
 }
 
 export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
-  const [schedule, setSchedule] = useState<ScheduleStep[]>([...defaultSchedule]);
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [newStepData, setNewStepData] = useState<ScheduleStep>(EMPTY_STEP);
@@ -33,6 +34,7 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   const [totalDurationString, setTotalDurationString] = useState<string>('00:00:00');
 
   const { isEditModeActive, isAddStepActive, setIsAddStepActive } = useContext(EditContext) as EditContextType;
+  const { schedule, setSchedule } = useContext(ScheduleContext) as ScheduleContextType;
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -40,11 +42,6 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
-  const removeItem = (removedItem: ScheduleStep) => {
-    let filteredSchedule = [...schedule].filter(item => item !== removedItem);
-    setSchedule(filteredSchedule);
-  }
 
   const onSkip = (step: ScheduleStep) => {
     updateTotalDuration(step.actualDuration);
@@ -129,16 +126,27 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
   }
 
   return (
-    <>
+    <div>
       { isEditModeActive
-        ? <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleOnDragEnd}>
-            <SortableContext items={schedule} strategy={verticalListSortingStrategy}>
-              {schedule.map((item, index) => {
+        ?
+          <>
+            {schedule.map((item, index) => {
+              if (item.isCompleted) {
                 return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
                   isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
-              })}
-            </SortableContext>
-          </DndContext>
+              }
+            })}
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleOnDragEnd}>
+              <SortableContext items={schedule} strategy={verticalListSortingStrategy}>
+                {schedule.map((item, index) => {
+                  if (!item.isCompleted) {
+                    return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
+                      isActive={activeStepIndex === index} onSkip={onSkip} onSaveStep={handleUpdateStep} onDeleteStep={deleteStep} />
+                  }
+                })}
+              </SortableContext>
+            </DndContext>
+          </>
         : <div>
             {schedule.map((item, index) => {
               return <Step key={item.id} id={item.id} step={item} isNotificationsEnabled={isNotificationsEnabled}
@@ -177,6 +185,6 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
           }
         </>
       }
-    </>
+    </div>
   )
 }

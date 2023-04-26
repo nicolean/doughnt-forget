@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useTimer } from 'react-timer-hook';
 import { EditContext } from '@/context/edit';
 import { EditContextType } from '@/types/edit-context';
-import ScheduleStepActions from './ScheduleStepActions';
+import StepActions from './StepActions';
 
 interface TimedScheduleStepProps {
   stepName: string;
@@ -59,7 +59,7 @@ export default function StepTimer({ stepName, duration, isActive, isComplete, is
         <div className="col-span-2 flex justify-end">
           { isTimerComplete
             ? <button onClick={() => onSkip(totalSeconds)}>Next</button>
-            : <ScheduleStepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
+            : <StepActions isPlaying={isRunning} onStart={start} onPause={pause} onSkip={handleOnSkip} />
           }
         </div>
       }
