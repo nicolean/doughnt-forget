@@ -14,5 +14,5 @@ export interface StepFormData {
 
 export interface ScheduleContextType {
   schedule: ScheduleStep[],
-  setSchedule: () => void,
+  setSchedule: (newSchedule: ScheduleStep[]) => void,
 }

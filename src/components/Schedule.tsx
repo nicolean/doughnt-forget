@@ -117,11 +117,11 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
     const {active, over} = event;
 
     if (active.id !== over.id) {
-      setSchedule((items) => {
-        const oldIndex = schedule.findIndex((step) => step.id === active.id);
-        const newIndex = schedule.findIndex((step) => step.id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
+      const oldIndex = schedule.findIndex((step) => step.id === active.id);
+      const newIndex = schedule.findIndex((step) => step.id === over.id);
+      const newSchedule = arrayMove(schedule, oldIndex, newIndex);
+
+      setSchedule(newSchedule);
     }
   }
 

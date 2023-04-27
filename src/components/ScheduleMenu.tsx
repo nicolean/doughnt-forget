@@ -1,11 +1,12 @@
 import { useState, useContext } from 'react';
 import { MoreVertical, Download, Upload } from 'react-feather';
 import { ScheduleContext } from '@/context/schedule';
+import { ScheduleContextType } from '@/types/schedule';
 
 export default function ScheduleMenu() {
-  const [isMenuOpen, setIsMenuOpen] = useState();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { schedule } = useContext(ScheduleContext) as ScheduleContext;
+  const { schedule } = useContext(ScheduleContext) as ScheduleContextType;
 
   const onExport = () => {
     console.log('schedule', schedule);
