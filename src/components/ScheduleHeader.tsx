@@ -26,7 +26,7 @@ export default function ScheduleHeader({ isNotificationsEnabled, setIsNotificati
         <div className="mr-4 flex">
           <NotificationToggle isNotificationsEnabled={isNotificationsEnabled} setIsNotificationsEnabled={setIsNotificationsEnabled}  />
         </div>
-        {/* <ScheduleMenu /> */}
+        <ScheduleMenu />
       </div>
     </div>
   )
