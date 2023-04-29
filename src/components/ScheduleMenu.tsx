@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
+import useOutsideClickAlert from '@/hooks/useOutsideClickAlert';
 import { MoreVertical, Download, Upload } from 'react-feather';
 import { ScheduleContext } from '@/context/schedule';
 import { ScheduleContextType } from '@/types/schedule';
@@ -9,6 +10,9 @@ export default function ScheduleMenu() {
 
   const { schedule } = useContext(ScheduleContext) as ScheduleContextType;
 
+  const wrapperRef = useRef(null);
+  useOutsideClickAlert(wrapperRef, () => setIsMenuOpen(false));
+
   useEffect(() => {
     setScheduleDownloadData(
       `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(schedule))}`
@@ -18,7 +22,7 @@ export default function ScheduleMenu() {
   const onImport = () => {}
 
   return (
-    <div className="relative flex items-center">
+    <div ref={wrapperRef} className="relative flex items-center">
       <button onClick={() => setIsMenuOpen((isMenuOpen) => !isMenuOpen)}><MoreVertical /></button>
       <div className={`absolute top-10 right-0 ${!isMenuOpen && 'hidden'} rounded shadow-md bg-white border border-gray-100 z-20 text-sm w-28`}>
         <ul className="list-none">
