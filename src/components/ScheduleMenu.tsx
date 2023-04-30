@@ -19,7 +19,39 @@ export default function ScheduleMenu() {
     );
   }, [schedule])
 
-  const onImport = () => {}
+  const onUploadSchedule = (e: any) => {
+    let file = e.target.files[0];
+    console.log(file);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsText(file);
+
+      reader.onload = () => {
+        if (!reader.result || typeof reader.result !== 'string') {
+          // TODO error handling here--alert? toast?
+          return;
+        }
+
+        handleFileData(reader.result);
+      };
+
+      reader.onerror = () => {
+        // TODO error handling here--alert? toast?
+        console.log(reader.error);
+      };
+    }
+  }
+
+  const handleFileData = (data: string) => {
+      try {
+        const jsonData = JSON.parse(data);
+        console.log(jsonData)
+      } catch (e) {
+        alert('Cannot import from file')
+        return false;
+      }
+  }
 
   return (
     <div ref={wrapperRef} className="relative flex items-center">
@@ -31,10 +63,11 @@ export default function ScheduleMenu() {
               Export
             </a>
           </li>
-          <li className="p-4 cursor-pointer not-last:border-b border-gray-200 hover:bg-gray-100">
-            <button className="w-full">
-              Import
-            </button>
+          <li className="cursor-pointer not-last:border-b border-gray-200 hover:bg-gray-100">
+            <label className="cursor-pointer w-full p-4 inline-block text-center">
+              <input className="hidden" type="file" name="myFile" onChange={onUploadSchedule} />
+              Upload
+            </label>
           </li>
         </ul>
       </div>
