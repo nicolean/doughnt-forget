@@ -24,47 +24,66 @@ export default function ScheduleMenu() {
     );
   }, [schedule])
 
-  const onUploadSchedule = (e: any) => {
-    let file = e.target.files[0];
-    console.log(file);
+  const onImportSchedule = (e: any) => {
+    const file = e.target.files[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsText(file);
-
-      reader.onload = () => {
-        if (!reader.result || typeof reader.result !== 'string') {
-          // TODO error handling here--alert? toast?
-          return;
-        }
-
-        handleFileData(reader.result);
-      };
-
-      reader.onerror = () => {
-        // TODO error handling here--alert? toast?
-        console.log(reader.error);
-      };
+    if (!file) {
+      handleImportError('File is missing and cannot be imported.');
+      return;
     }
+
+    const reader = new FileReader();
+    reader.readAsText(file);
+
+    reader.onload = () => {
+      if (!reader.result || typeof reader.result !== 'string') {
+        handleImportError();
+        return;
+      }
+
+      handleFileData(reader.result);
+    };
+
+    reader.onerror = () => {
+      handleImportError();
+      console.log(reader.error);
+    };
   }
 
   const handleFileData = (data: string) => {
     try {
       const jsonData = JSON.parse(data);
-
-      // TODO validate data
-
-      setParsedDownloadData(jsonData);
-      setIsMenuOpen(false);
-      setIsModalOpen(true);
-
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
     } catch (e) {
-      alert('Cannot import from file')
+      setIsMenuOpen(false);
+      handleImportError('Data is not correctly formatted and cannot be imported.');
       return false;
     }
+
+    if (!validateImportedFileData(jsonData)) {
+      handleImportError('Data is not correctly formatted and cannot be imported.');
+      return;
+    }
+
+    setParsedDownloadData(jsonData);
+    setIsMenuOpen(false);
+    setIsModalOpen(true);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }
+
+  const handleImportError = (message?: string) => {
+    alert('This file cannot be imported.' || message);
+  }
+
+  const validateImportedFileData = (data: any) => {
+    if (!Array.isArray(data)) {
+      return false;
+    }
+
+    const scheduleKeys = ['id', 'name', 'type', 'duration', 'actualDuration', 'isCompleted'];
+    return data.every(i => scheduleKeys.every(key => Object.keys(i).includes(key)))
   }
 
   return (
@@ -80,8 +99,8 @@ export default function ScheduleMenu() {
             </li>
             <li className="cursor-pointer not-last:border-b border-gray-200 hover:bg-gray-100">
               <label className="cursor-pointer w-full p-4 inline-block text-center">
-                <input ref={fileInputRef} className="hidden" type="file" accept=".txt" name="imported-schedule" onChange={onUploadSchedule} />
-                Upload
+                <input ref={fileInputRef} className="hidden" type="file" accept=".txt" name="imported-schedule" onChange={onImportSchedule} />
+                Import
               </label>
             </li>
           </ul>
