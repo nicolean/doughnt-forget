@@ -1,9 +1,25 @@
-# doughnt forget
+# 🥖 doughnt forget
 Never forget your dough again!
 
-Build a schedule with the steps and timings you use for your dough. Then start the timer to guide and remind you through each step.
+doughnt forget is a simple web app for building and executing a step-by-step dough timeline.
 
-## Getting Started
+## Features
+### Editing the Timeline
+- Each step has an editable name and duration
+- Steps can be edited, reordered, or deleted
+- Timeline JSON data can be exported/imported to/from a `.txt` file (WIP)
+### Executing the Timeline
+- Total "play" duration is tracked
+- Start, pause, and skip steps
+- Steps with a defined duration, like a rest or bulk fermentation, have a timer to track time
+- Steps without a defined duration, like mixing in salt or shaping, will have a stopwatch to track time
+- Browser notifications when a timed step is complete
+### Future
+- Option to "continue" a completed step (dough can be unpredictable!)
+- Notification list with history of timestamped notifications
+- Timeline history/stats?
+
+## Running Locally
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
