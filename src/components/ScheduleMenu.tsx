@@ -46,35 +46,37 @@ export default function ScheduleMenu() {
 
     reader.onerror = () => {
       handleImportError();
-      console.log(reader.error);
     };
   }
 
   const handleFileData = (data: string) => {
     try {
       const jsonData = JSON.parse(data);
-    } catch (e) {
+
+      if (!validateImportedFileData(jsonData)) {
+        handleImportError('Data is not correctly formatted and cannot be imported.');
+        return;
+      }
+
+      setParsedDownloadData(jsonData);
       setIsMenuOpen(false);
+      setIsModalOpen(true);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    } catch (e) {
       handleImportError('Data is not correctly formatted and cannot be imported.');
       return false;
-    }
-
-    if (!validateImportedFileData(jsonData)) {
-      handleImportError('Data is not correctly formatted and cannot be imported.');
-      return;
-    }
-
-    setParsedDownloadData(jsonData);
-    setIsMenuOpen(false);
-    setIsModalOpen(true);
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
     }
   }
 
   const handleImportError = (message?: string) => {
-    alert('This file cannot be imported.' || message);
+    alert(message || 'This file cannot be imported.');
+    setIsMenuOpen(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   }
 
   const validateImportedFileData = (data: any) => {
