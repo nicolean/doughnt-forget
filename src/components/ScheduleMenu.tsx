@@ -13,6 +13,8 @@ export default function ScheduleMenu() {
 
   const { schedule } = useContext(ScheduleContext) as ScheduleContextType;
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const wrapperRef = useRef(null);
   useOutsideClickAlert(wrapperRef, () => setIsMenuOpen(false));
 
@@ -49,12 +51,16 @@ export default function ScheduleMenu() {
   const handleFileData = (data: string) => {
     try {
       const jsonData = JSON.parse(data);
-      console.log(jsonData)
+
+      // TODO validate data
+
       setParsedDownloadData(jsonData);
       setIsMenuOpen(false);
-      // TODO reset input or change from onchange trigger (selected same file will not trigger)
-      // TODO validate data
       setIsModalOpen(true);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } catch (e) {
       alert('Cannot import from file')
       return false;
@@ -68,13 +74,13 @@ export default function ScheduleMenu() {
         <div className={`absolute top-10 right-0 ${!isMenuOpen && 'hidden'} rounded shadow-md bg-white border border-gray-100 z-20 text-sm w-28`}>
           <ul className="list-none">
             <li className="cursor-pointer not-last:border-b border-gray-200 hover:bg-gray-100">
-              <a className="w-full p-4 text-center" type="button" href={scheduleDownloadData} download="dough-schedule.json">
+              <a className="w-full p-4 text-center" type="button" href={scheduleDownloadData} download="dough-schedule.txt">
                 Export
               </a>
             </li>
             <li className="cursor-pointer not-last:border-b border-gray-200 hover:bg-gray-100">
               <label className="cursor-pointer w-full p-4 inline-block text-center">
-                <input className="hidden" type="file" name="myFile" onChange={onUploadSchedule} />
+                <input ref={fileInputRef} className="hidden" type="file" accept=".txt" name="imported-schedule" onChange={onUploadSchedule} />
                 Upload
               </label>
             </li>

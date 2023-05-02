@@ -25,8 +25,8 @@ export default function SchedulePreviewModal({ isOpen, setIsOpen, schedule }: Sc
             return (
               <div key={s.id} className="relative bg-white not-first:border-t not-first:border-t-blue-300">
                 <div className="grid grid-cols-12 py-4 px-2 sm:px-4">
-                  <div className="col-span-6 sm:col-span-7">{ s.name }</div>
-                  <div className="col-span-4 sm:col-span-3">{ s.duration }</div>
+                  <div className="col-span-9 sm:col-span-8">{ s.name }</div>
+                  <div className="col-span-3 sm:col-span-4">{ s.duration || '00:00' }</div>
                 </div>
               </div>
             )}
