@@ -6,7 +6,6 @@ import { ScheduleContextType } from '@/types/schedule';
 import Step from './Step';
 import Button from './Button';
 import StepForm from './StepForm';
-import { defaultSchedule } from '@/data/default-schedule';
 import { ScheduleStep } from '@/types/schedule';
 import { Plus } from 'react-feather';
 import JSConfetti from 'js-confetti';
@@ -159,7 +158,7 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
         <div className="my-4 h-[3.625rem]">
           { isAddStepActive
             ? <StepForm step={newStepData} onSubmit={addStep} onCancel={onAddStepCancel} />
-            : <Button ariaLabel="Add new step" onClick={() => setIsAddStepActive(true)}><Plus /></Button>
+            : <Button ariaLabel="Add new step" isFullWidth={true} onClick={() => setIsAddStepActive(true)}><Plus /></Button>
           }
         </div>
       }
@@ -179,7 +178,7 @@ export default function Schedule({ isNotificationsEnabled }: ScheduleProps) {
             <div className="text-center py-5">
               <p>COMPLETE!</p>
               <div className="mt-3">
-                <Button ariaLabel="Reset schedule" onClick={onScheduleReset}>Reset</Button>
+                <Button ariaLabel="Reset schedule" isFullWidth={true} onClick={onScheduleReset}>Reset</Button>
               </div>
             </div>
           }
