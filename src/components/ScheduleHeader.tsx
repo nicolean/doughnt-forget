@@ -17,16 +17,18 @@ export default function ScheduleHeader({ isNotificationsEnabled, setIsNotificati
     <div className="pt-8 sm:pt-10 pb-5 px-1 flex justify-between border-b border-notecard-pink">
       <h1 className="text-2xl">doughnt forget</h1>
       <div className="flex relative">
-        <button className="mr-4" aria-label="Toggle edit mode" onClick={toggleEditMode}>
+        <button aria-label="Toggle edit mode" onClick={toggleEditMode}>
           { isEditModeActive
               ? <><span className="visually-hidden">Disable edit mode</span><X size={26} /></>
               : <><span className="visually-hidden">Enable edit mode</span><Edit size={22} /></>
           }
         </button>
-        <div className="mr-4 flex">
+        <div className="ml-4 flex">
           <NotificationToggle isNotificationsEnabled={isNotificationsEnabled} setIsNotificationsEnabled={setIsNotificationsEnabled}  />
         </div>
-        <ScheduleMenu />
+        <div className="ml-3 flex">
+          <ScheduleMenu />
+        </div>
       </div>
     </div>
   )

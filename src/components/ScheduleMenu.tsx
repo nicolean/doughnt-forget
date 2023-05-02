@@ -95,8 +95,10 @@ export default function ScheduleMenu() {
         <div className={`absolute top-10 right-0 ${!isMenuOpen && 'hidden'} rounded shadow-md bg-white border border-gray-100 z-20 text-sm w-28`}>
           <ul className="list-none">
             <li className="cursor-pointer not-last:border-b border-gray-200 hover:bg-gray-100">
-              <a className="w-full p-4 text-center" type="button" href={scheduleDownloadData} download="dough-schedule.txt">
-                Export
+              <a className="w-full text-center" type="button" href={scheduleDownloadData} download="dough-schedule.txt">
+                <div className="p-4">
+                  Export
+                </div>
               </a>
             </li>
             <li className="cursor-pointer not-last:border-b border-gray-200 hover:bg-gray-100">
