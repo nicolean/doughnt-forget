@@ -18,7 +18,7 @@ export default function Home() {
         <title>doughnt forget</title>
         <meta name="description" content="A scheduler for your bread dough" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-		    <link rel="icon" type="image/svg+xml" href="/favicon.svg?" />
+		    <link rel="icon" type="image/svg+xml" href="./favicon.svg?" />
       </Head>
       <main className="w-screen">
         <div className="w-full px-5 sm:max-w-xl sm:p-0 mx-auto">
