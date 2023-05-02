@@ -7,8 +7,9 @@ interface NotificationToggleProps {
 }
 
 export default function NotificationToggle({ isNotificationsEnabled, setIsNotificationsEnabled }: NotificationToggleProps) {
-  const [isNotificationsSupported, setIsNotificationsSupported] = useState(false);
-  const [isNotificationsAllowed, setIsNotificationsAllowed] = useState(false);
+  const [isNotificationsSupported, setIsNotificationsSupported] = useState<boolean>(false);
+  const [isNotificationsAllowed, setIsNotificationsAllowed] = useState<boolean>(false);
+  const [isTooltipShown, setIsTooltipShown] = useState<boolean>(false);
 
   useEffect(() => {
     if (!('Notification' in window)) {
@@ -39,6 +40,12 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
   }
 
   const onButtonClick = () => {
+    if (Notification.permission === 'denied') {
+      setIsTooltipShown(true);
+      setTimeout(() => { setIsTooltipShown(false) }, 2500);
+      return;
+    }
+
     requestNotificationPermission();
     setIsNotificationsEnabled(!isNotificationsEnabled);
   }
@@ -58,8 +65,8 @@ export default function NotificationToggle({ isNotificationsEnabled, setIsNotifi
               </>
             }
         </button>
-        { !isNotificationsAllowed &&
-          <div className="absolute top-12 left-2/4 -translate-y-2/4 -translate-x-2/4 opacity-0 group-hover:opacity-100 duration-100 ease-in-out bg-slate-700 py-1 px-2 rounded text-xs text-white whitespace-nowrap z-20">Allow browser notifications to enable</div>
+        { isTooltipShown &&
+          <div className="absolute top-12 left-2/4 -translate-y-2/4 -translate-x-2/4 bg-slate-700 py-1 px-2 rounded text-xs text-white whitespace-nowrap z-20">Allow browser notifications to enable</div>
         }
       </div>
     : null
