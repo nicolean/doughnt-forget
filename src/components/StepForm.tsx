@@ -2,6 +2,7 @@ import { useState, ChangeEvent } from 'react';
 import { X, Save, Trash, Trash2 } from 'react-feather';
 import { ScheduleStep, StepFormData } from '@/types/schedule';
 import { useForm } from 'react-hook-form';
+import Button from './Button';
 
 
 interface StepFormProps {
@@ -39,12 +40,23 @@ export default function StepForm({ step, onSubmit, onCancel, onDeleteStep }: Ste
           {...register('duration', { pattern: /^([0-9][0-9]):([0-5][0-9])/i })} aria-invalid={errors.duration ? 'true' : 'false'} />
           { errors.duration?.type === 'pattern' && <p className="absolute bg-white text-xs text-red-600 p-1 -top-3 left-1">HH:MM</p> }
       </div>
-      <div className="col-span-12 sm:col-span-2 flex justify-center sm:justify-end mt-4 sm:mt-0">
-        <button aria-label="Save changes" onClick={handleSubmit(handleOnSubmit)}><Save /></button>
-        <button aria-label="Cancel changes" onClick={onCancel}><X size={28} /></button>
-        { onDeleteStep && step.id &&
-          <button aria-label="Delete step" onClick={() => onDeleteStep(step.id)}><Trash2 /></button>
-        }
+      <div className="col-span-12 flex sm:col-span-2 mt-4 sm:mt-0">
+        <div className="sm:hidden flex justify-between w-full">
+          { onDeleteStep && step.id &&
+            <Button ariaLabel="Delete step" classes="bg-white border border-red-800 text-red-800" onClick={() => onDeleteStep(step.id)}>Delete</Button>
+          }
+          <div className="flex">
+            <Button ariaLabel="Cancel changes" classes="bg-white border border-slate-300" onClick={onCancel}>Cancel</Button>
+            <Button ariaLabel="Save changes" classes="ml-2" onClick={handleSubmit(handleOnSubmit)}>Save</Button>
+          </div>
+        </div>
+        <div className="hidden sm:flex justify-end w-full">
+          <button aria-label="Save changes" onClick={handleSubmit(handleOnSubmit)}><Save /></button>
+          <button aria-label="Cancel changes" onClick={onCancel}><X size={28} /></button>
+          { onDeleteStep && step.id &&
+            <button aria-label="Delete step" onClick={() => onDeleteStep(step.id)}><Trash2 /></button>
+          }
+        </div>
       </div>
     </div>
   )
